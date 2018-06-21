@@ -1,0 +1,22 @@
+float64 Knee  
+float64 Back_Z
+float64 Back_X
+float64 Back_Y
+float64 Neck_Z
+float64 Neck_X
+float64 Head
+float64 Left_Shoulder_X
+float64 Left_Shoulder_Y
+float64 Left_Elbow_Z
+float64 Left_Elbow_X
+float64 Left_Wrist_Z
+float64 Left_Wrist_Y
+float64 Left_Wrist_X
+float64 Right_Shoulder_X
+float64 Right_Shoulder_Y
+float64 Right_Elbow_Z
+float64 Right_Elbow_X
+float64 Right_Wrist_Z
+float64 Right_Wrist_Y
+float64 Right_Wrist_X
+
