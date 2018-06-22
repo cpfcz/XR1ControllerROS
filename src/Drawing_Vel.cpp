@@ -9,18 +9,14 @@ XR1ControllerROS * XR1_ptr;
 
 ros::Subscriber StepFinishedSubscriber;
 
-int someCountingIdx;
-
 double simualtionStartTime;
 
 bool ready;
 
 Eigen::VectorXd InitPOSL;
+
 Eigen::VectorXd InitPOSR;
 
-std::vector<std::vector<double> > stored_data;
-
-bool wrote;
 
 
 Eigen::Vector3d  TrajectoryPositionFunction(const double& t) {
@@ -58,47 +54,30 @@ Eigen::Vector3d  TrajectoryAccelrationFunction(const double& t ) {
   return res;
 }
 
-void writeData(){
-    std::ofstream filename ("/home/rocky/CollectedData/testrun.txt");
-
-  if (filename.is_open()){
-    ROS_INFO("FileOpened");
-
-    for (int i = 0 ; i < stored_data.size() ; i++) {
-
-      for ( int j = 0 ; j < stored_data[i].size() ; j++) filename << stored_data[i][j] << "," ;
-
-      filename << std::endl;
-    }
-
-  }
-  else
-    ROS_INFO("FileFailed");
-
-  filename.close();
-
-  wrote = true;
-}
 
 void stepFinishedCallback(const std_msgs::Bool& msg) {
 
-  ROS_INFO("Enter callback [%f]" , XR1_ptr->getSimulationTime());
-
   static double t;
+
+  static VectorXd error_gain = Eigen::VectorXd::Zero(6) ;
+
+  error_gain << 50.0 ,50.0 ,50.0 ,0.5,0.5,0.5;
 
   t = XR1_ptr->getSimulationTime() - simualtionStartTime ;
 
 
   if (!ready) {
 
+
+    //Uses Inverse Kinematics Mode to get into position
     static Eigen::VectorXd startPOS = Eigen::VectorXd::Zero(6);
 
     startPOS << 0.4 , 0 , 0 , 0 , 0 , 0;
 
     if (t <= 2.0) {
-      ROS_INFO("SettingLeftArmPosition");
+
       XR1_ptr->setLeftArmPosition( (startPOS - InitPOSL) / 2.0 * t + InitPOSL);
-      ROS_INFO("SettingRightArmPosition");
+
       XR1_ptr->setRightArmPosition( (startPOS - InitPOSR) / 2.0 * t + InitPOSR);
     }
 
@@ -109,29 +88,41 @@ void stepFinishedCallback(const std_msgs::Bool& msg) {
 
       simualtionStartTime = XR1_ptr->getSimulationTime();
 
-      XR1_ptr->setControlMode(XR1::Actuator_Total , XR1::VelocityMode);
 
-      XR1_ptr->setControlMode(XR1::RightArm , XR1::ForceMode);
+      // Changing Mode to Start Drawing 
+
+      XR1_ptr->setControlMode(XR1::RightArm , XR1::VelocityMode);
+
+      XR1_ptr->setControlMode(XR1::LeftArm , XR1::ForceMode);
+
+      XR1_ptr->setLeftArmDynamicSwitch(true);
+
+      
     }
 
   }
 
   else {
     
-    XR1_ptr->setLeftArmVelocity(TrajectorySpeedFunction(t) , Eigen::VectorXd::Zero(3))  ;
 
+    //The Loop For Drawing 
 
-    // static Eigen::VectorXd Error
+    //LeftArm is commanded with Force Mode
+    Eigen::VectorXd CurrentTwist = XR1_ptr->getLeftArmPosition();
+
+    Eigen::VectorXd TargetTwist = Eigen::VectorXd::Zero(6);
+
+    TargetTwist << TrajectoryPositionFunction(t) , 0 , 0 , 0;
+
+    Eigen::VectorXd Errors = error_gain.cwiseProduct ((TargetTwist - CurrentTwist)  );
+
+    XR1_ptr->setLeftArmCurrent( Errors ) ;
 
     XR1_ptr->setRightArmVelocity(TrajectorySpeedFunction(t) , Eigen::VectorXd::Zero(3))  ;
-    stored_data.push_back(XR1_ptr->getJointPositionsStd(XR1::LeftArm));
+
+
   }
 
-  if(!wrote && t  > 7.0)
-    writeData();
-
-
-  ROS_INFO("step finishing");
   XR1_ptr->stepFinishedCallback();
 }
 
@@ -145,8 +136,6 @@ int main(int argc, char **argv) {
 
   ready = false;
 
-  wrote = false;
-
   XR1_ptr = new XR1ControllerROS();
 
   ROS_INFO("Started Controller");
@@ -158,16 +147,14 @@ int main(int argc, char **argv) {
 
   XR1_ptr->launchAllMotors(); // startSimulation()
 
-  // ros::Duration(1).sleep();
-  XR1_ptr->setControlMode(XR1::Actuator_Total , XR1::IKMode);
+  XR1_ptr->setControlMode(XR1::LeftArm , XR1::IKMode);
 
-  // XR1_ptr->setControlMode(XR1::RightArm , XR1::IKMode);
+  XR1_ptr->setControlMode(XR1::RightArm , XR1::IKMode);
 
   simualtionStartTime = XR1_ptr->getSimulationTime();
 
-  ROS_INFO("Getting LeftArm Position");
   InitPOSL = XR1_ptr->getLeftArmPosition();
-  ROS_INFO("Getting RightArm Position");
+
   InitPOSR = XR1_ptr->getRightArmPosition();
 
   StepFinishedSubscriber = nh.subscribe("/simulationStepDone", 1 , &stepFinishedCallback);

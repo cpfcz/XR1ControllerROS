@@ -59,7 +59,7 @@ public:
 
     void updateValue(VectorXd JointValue , u_int8_t value_type);
 
-    VectorXd NewtonEuler(bool DynamicSwitch);
+    VectorXd NewtonEuler();
 
 
 
@@ -77,7 +77,7 @@ public:
 
     void setEFFCurrent(const VectorXd& twist);
 
-
+    bool DynamicSwitch;
 
 private:
 
@@ -166,6 +166,8 @@ private:
     double PI;
 
     Vector3d grav;
+
+
 
 protected:
 

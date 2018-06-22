@@ -5,25 +5,25 @@
 
 #include <geometry_msgs/Point.h>
 
-#include "xr1controllerros/IK_msg.h"
+
+#include "xr1controllerpm.h"
+#include "xr1define.h"
 
 
-
-// Dynamics shit
+// Messages for Communication
 #include "xr1controllerros/ArmMsgs.h"
 #include "xr1controllerros/BodyMsgs.h"
 #include "xr1controllerros/HandMsgs.h"
 #include "xr1controllerros/ChainModeChange.h"
 #include "std_msgs/Float32.h"
-#include "xr1controllerpm.h"
-#include "xr1define.h"
+#include "xr1controllerros/IK_msg.h"
 #include "std_msgs/Bool.h"
 #include "std_msgs/Int32.h"
 #include "std_msgs/String.h"
 #include "geometry_msgs/Twist.h"
 #include "geometry_msgs/Quaternion.h"
 #include "xr1controllerros/JointAttributeMsgs.h"
-// Dynamics shit that's just getting started
+// Messages for Communication
 
 
 #include "Eigen/Dense"
@@ -308,8 +308,6 @@ public:
   MatrixXd getRightArmPositionMatrix() ;
 
 
-
-
   //Trun ON/OFF the tilt compensation, only affects Control groups in Position Mode
   //Used in XR1Controller.
   //Argu: option true/false, if true, it will calculate an offfset value based on the orientation of the OmniWheels
@@ -317,12 +315,23 @@ public:
   void tiltCompensateSwitch(bool option);
 
 
+  //Trun ON/OFF the dynamic compensation of Left Arm, only affects Current Mode
+  //Used in XR1Controller.
+  //Argu: option true/false, if true, it will calculate an offfset value based on the orientation of the OmniWheels
+  //Reutrns : void , may add error message in the fulture
+  void setLeftArmDynamicSwitch(bool option);
+
+
+  //Trun ON/OFF the dynamic compensation of Right Arm, only affects Current Mode
+  //Used in XR1Controller.
+  //Argu: option true/false, if true, it will calculate an offfset value based on the orientation of the OmniWheels
+  //Reutrns : void , may add error message in the fulture
+  void setRightArmDynamicSwitch(bool option);
 
 
 
-
-  //Convert Joint informations for ROS Msgs
-
+  
+  // Convert Joint ROS Messages 
   xr1controllerros::ArmMsgs ConvertArmMsgs(std::vector<double> input);
 
   xr1controllerros::ArmMsgs ConvertArmMsgs(Eigen::VectorXd input);
@@ -349,7 +358,7 @@ public:
 
 protected:
 
-  //Function called for any value update
+  //Helper Functions that users should not worry about
   void updatingCallback(VectorXd JointValue, u_int8_t control_group , u_int8_t values_type);
 
   void tiltCompensate(const geometry_msgs::Quaternion& msg);
@@ -376,9 +385,6 @@ protected:
 
   void simulationTimeCallback(const std_msgs::Float32& msg);
 
-
-
-
   void updateControllers(u_int8_t ControlGroup , u_int8_t InformationType);
 
   std::vector<u_int8_t> ArrayIDHelper(u_int8_t control_group);
@@ -394,9 +400,9 @@ protected:
   Vector3d Matrix2XY(Matrix3d BaseRotation);
 
 
-
 private:
 
+  // Pay no Attention Here Plz
   ros::NodeHandle nh;
 
   XR1ControllerPM * XR1_ptr;
@@ -407,7 +413,16 @@ private:
 
   ros::Publisher SimulationStopPublisher;
 
-  ros::Publisher ModeChangePublisher;
+  ros::Publisher MainBodyModeChangePublisher ;
+
+  ros::Publisher LeftArmModeChangePublisher  ;
+
+  ros::Publisher RightArmModeChangePublisher ;
+
+  ros::Publisher LeftHandModeChangePublisher   ;
+  
+  ros::Publisher RightHandModeChangePublisher  ;
+
 
   ros::Publisher IKTargetPositionPublisher;
 
@@ -419,8 +434,6 @@ private:
 
   ros::Publisher TwistPublisher;
 
-
-  // Dynamic Shit
   ros::Publisher LeftArmPositionPublisher;
 
   ros::Publisher RightArmPositionPublisher;
@@ -450,7 +463,7 @@ private:
   ros::Publisher TriggerPublisher;
 
   ros::Publisher JointAttributePublisher;
-//---------------------------------------------
+
   ros::Subscriber MainBodyPositionSubscriber;
 
   ros::Subscriber LeftArmPositionSubscriber ;
@@ -470,8 +483,6 @@ private:
   ros::Subscriber JointCurrentPositionSubscriber;
 
   ros::Subscriber BaseRotSubscriber;
-
-  // ---------------- Path Planning Stuff---------------
 
   ros::Publisher LeftHandMotionPlanningMethodPublisher;
 

@@ -104,7 +104,13 @@ public:
 
     MatrixXd getRightArmPositionMatrix();
 
+    //--------------------------------------------------------------------------------
 
+    void setLeftArmDynamicSwitch(bool option);
+
+    void setRightArmDynamicSwitch(bool option);
+
+    //----------------------------------------------------------------------------------
     void playGeneratedData();
 
     void readGeneratedData(std::vector<std::vector<double> > input);

@@ -20,7 +20,17 @@ XR1ControllerROS::XR1ControllerROS()
 
 	RightHandPositionPublisher   			= nh.advertise<xr1controllerros::HandMsgs>("/RightHand/TargetPosition", 10);
 
-	ModeChangePublisher                      = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/ModeChange", 1);
+	MainBodyModeChangePublisher             = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/MainBodyChainModeChange", 1);
+
+	LeftArmModeChangePublisher              = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/LeftArmChainModeChange", 1);
+
+	RightArmModeChangePublisher             = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/RightArmChainModeChange", 1);
+
+
+	LeftHandModeChangePublisher              = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/LeftHandChainModeChange", 1);
+
+	RightHandModeChangePublisher             = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/RightHandChainModeChange", 1);
+
 
 	LeftArmEEFPositionPublisher                = nh.advertise<geometry_msgs::Twist>("/LeftArm/IK_msg", 10);
 	RightArmEEFPositionPublisher               = nh.advertise<geometry_msgs::Twist>("/RightArm/IK_msg", 10);
@@ -87,7 +97,9 @@ XR1ControllerROS::~XR1ControllerROS()
 	SimulationStopPublisher                .shutdown();
 	LeftHandPositionPublisher  			   .shutdown();
 	RightHandPositionPublisher 			   .shutdown();
-	ModeChangePublisher                    .shutdown();
+	MainBodyModeChangePublisher            .shutdown();
+	LeftArmModeChangePublisher             .shutdown();
+	RightArmModeChangePublisher            .shutdown();
 	IKTargetPositionPublisher              .shutdown();
 	TwistPublisher                         .shutdown();
 	LeftArmPositionPublisher               .shutdown();
@@ -167,31 +179,43 @@ void XR1ControllerROS::setControlMode(u_int8_t control_group , u_int8_t option) 
 	xr1controllerros::ChainModeChange mode;
 
 	mode.ChainID = control_group;
-
-	// switch (option) {
-	// case XR1::IKMode:
-	// 	mode.Mode = XR1::IKMode;
-	// 	break;
-
-	// case XR1::ForceMode:
-	// 	mode.Mode = XR1::ForceMode;
-	// 	break;
-
-	// default:
-	// 	mode.Mode = XR1::PositionMode;
-	// 	break;
-	// }
-
 	mode.Mode = option;
+
+	switch (control_group) {
+	case XR1::MainBody:
+		MainBodyModeChangePublisher.publish(mode);
+		break;
+
+	case XR1::LeftArm:
+		LeftArmModeChangePublisher.publish(mode);
+		break;
+
+	case XR1::RightArm:
+		RightArmModeChangePublisher.publish(mode);
+		break;
+
+	case XR1::LeftHand:
+		LeftHandModeChangePublisher.publish(mode);
+		break;
+
+	case XR1::RightHand:
+		RightHandModeChangePublisher.publish(mode);
+		break;
+
+	default:
+		break;
+	}
+
+	// mode.Mode = option;
 
 	ControlModes[control_group] = option;
 
-	if (control_group == XR1::Actuator_Total) {
-		ControlModes[XR1::LeftArm] = option;
-		ControlModes[XR1::RightArm] = option;
-	}
+	// if (control_group == XR1::Actuator_Total) {
+	// 	ControlModes[XR1::LeftArm] = option;
+	// 	ControlModes[XR1::RightArm] = option;
+	// }
 
-	ModeChangePublisher.publish(mode);
+	// ModeChangePublisher.publish(mode);
 	// onMousePublish(ui_.publish_click_location_check_box->isChecked())
 }
 
@@ -564,6 +588,15 @@ void XR1ControllerROS::setJointAttribute(u_int8_t joint_idx , u_int8_t attribute
 	msg.Value = value;
 
 	JointAttributePublisher.publish(msg);
+}
+
+
+
+void XR1ControllerROS::setLeftArmDynamicSwitch(bool option) {
+	XR1_ptr->setLeftArmDynamicSwitch(option);
+}
+void XR1ControllerROS::setRightArmDynamicSwitch(bool option) {
+	XR1_ptr->setRightArmDynamicSwitch(option);
 }
 
 
