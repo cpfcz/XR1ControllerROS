@@ -330,6 +330,8 @@ public:
 
 
 
+  std::map<u_int8_t, u_int8_t> ControlModes;
+  
   
   // Convert Joint ROS Messages 
   xr1controllerros::ArmMsgs ConvertArmMsgs(std::vector<double> input);
@@ -417,7 +419,7 @@ private:
 
   ros::Publisher LeftArmModeChangePublisher  ;
 
-  ros::Publisher RightArmModeChangePublisher ;
+  ros::Publisher RightArmModeChangePublisher ;  
 
   ros::Publisher LeftHandModeChangePublisher   ;
   
@@ -496,7 +498,7 @@ private:
 
   double previous_simulationTime;
 
-  std::map<u_int8_t, u_int8_t> ControlModes;
+
 
 }; //class
 

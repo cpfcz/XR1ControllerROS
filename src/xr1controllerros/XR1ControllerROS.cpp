@@ -20,16 +20,16 @@ XR1ControllerROS::XR1ControllerROS()
 
 	RightHandPositionPublisher   			= nh.advertise<xr1controllerros::HandMsgs>("/RightHand/TargetPosition", 10);
 
-	MainBodyModeChangePublisher             = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/MainBodyChainModeChange", 1);
+	MainBodyModeChangePublisher             = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/MainBodyChainModeChange", 10);
 
-	LeftArmModeChangePublisher              = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/LeftArmChainModeChange", 1);
+	LeftArmModeChangePublisher              = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/LeftArmChainModeChange", 10);
 
-	RightArmModeChangePublisher             = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/RightArmChainModeChange", 1);
+	RightArmModeChangePublisher             = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/RightArmChainModeChange", 10);
 
 
-	LeftHandModeChangePublisher              = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/LeftHandChainModeChange", 1);
+	LeftHandModeChangePublisher              = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/LeftHandChainModeChange", 10);
 
-	RightHandModeChangePublisher             = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/RightHandChainModeChange", 1);
+	RightHandModeChangePublisher             = nh.advertise<xr1controllerros::ChainModeChange>("/XR1/RightHandChainModeChange", 10);
 
 
 	LeftArmEEFPositionPublisher                = nh.advertise<geometry_msgs::Twist>("/LeftArm/IK_msg", 10);
@@ -677,7 +677,7 @@ void XR1ControllerROS::stepFinishedCallback() {
 		LeftArmPositionPublisher.publish(ConvertArmMsgs(XR1_ptr->getTargetPosition(XR1::LeftArm)));
 		break;
 	case XR1::VelocityMode:
-		ROS_INFO("publishing left arm velocity");
+
 		LeftArmVelocityPublisher.publish(ConvertArmMsgs(XR1_ptr->getTargetVelocity(XR1::LeftArm)));
 		break;
 	case XR1::ForceMode:
@@ -692,7 +692,7 @@ void XR1ControllerROS::stepFinishedCallback() {
 		RightArmPositionPublisher.publish(ConvertArmMsgs(XR1_ptr->getTargetPosition(XR1::RightArm)));
 		break;
 	case XR1::VelocityMode:
-		ROS_INFO("publishing right arm velocity");
+
 		RightArmVelocityPublisher.publish(ConvertArmMsgs(XR1_ptr->getTargetVelocity(XR1::RightArm)));
 		break;
 	case XR1::ForceMode:
