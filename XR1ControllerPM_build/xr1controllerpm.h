@@ -2,9 +2,12 @@
 #define XR1CONTROLLERPM_H
 
 #include "xr1controllerpm_global.h"
+#include "genericcontroller.h"
 #include "Eigen/Dense"
 #include "chaincontroller.h"
 #include "handcontroller.h"
+#include "omnicontroller.h"
+#include <map>
 #include <vector>
 #include "Eigen/Geometry"
 #include "xr1define.h"
@@ -27,6 +30,13 @@ public:
     VectorXd setJointCurrent(u_int8_t control_group ,VectorXd JC);
 
 
+
+    void setJointPosition(u_int8_t JointID ,double JA);
+
+    void setJointVelocity(u_int8_t JointID ,double JV);
+
+    void setJointCurrent(u_int8_t JointID ,double JC);
+
     //
 
     VectorXd getJointPositions(u_int8_t control_group);
@@ -41,6 +51,15 @@ public:
 
     std::vector<double> getJointCurrentsStd(u_int8_t control_group);
 
+
+    //For each joint
+    double getJointAngle(u_int8_t joint_id);
+
+    double getJointVelocity(u_int8_t joint_id);
+
+    double getJointCurrent(u_int8_t joint_id);
+
+
     void Zero();
 
     //-----------------------------------------------------------------
@@ -49,12 +68,14 @@ public:
     //Commnunications--------------------------------------------------
 
     void setControlMode(u_int8_t control_group ,u_int8_t option);
+    u_int8_t getControlMode(u_int8_t control_group);
 
     void errorHandle();
 
     void launchingCallback();
 
     void updatingCallback(VectorXd JointValue, u_int8_t control_group , u_int8_t values_type);
+    void updatingCallback(double JointValue, u_int8_t JointID , u_int8_t values_type);
 
     //-----------------------------------------------------------------
 
@@ -118,9 +139,9 @@ public:
     void clearGeneratedData();
 
 
-    Vector3d TiltCompensation(Matrix3d BaseRotation);
+    Vector3d TiltCompensation(Matrix3d BaseRotation, Vector3d BaseAcceleration);
 
-    Vector3d TiltCompensation(Quaterniond BaseRotation);
+    Vector3d TiltCompensation(Quaterniond BaseRotation , Vector3d BaseAcceleration);
 
     //---------------------------------------------------------------------------------
 
@@ -130,13 +151,34 @@ public:
 
     VectorXd getTargetCurrent(u_int8_t control_group);
 
+    double getTargetJointPosition(u_int8_t joint_id);
+
+    double getTargetJointVelocity(u_int8_t joint_id);
+
+    double getTargetJointCurrent(u_int8_t joint_id);
+
     //Dynamics Controls-----------------------------------------------------------------
 
     void updateBaseTransformation();
 
+    void triggerCalculation();
+
+    double tinyBezier(double double_index , double pt_s , double pt_1 , double pt_2 , double pt_e);
+
+    bool CollisionDetection(u_int8_t control_group);
+
+
+    //OmniWheels Controls-----------------------------------------------------------------
+    void SetOmniWheelsVelocity(Vector3d input);
+
 
 
 private:
+
+    std::map<u_int8_t ,GenericController *> ControllerMap;
+
+    std::map<u_int8_t , u_int8_t> ControllerIDs;
+
     ChainController * LeftArm;
 
     ChainController * RightArm;
@@ -147,6 +189,12 @@ private:
     HandController * LeftHand;
 
     HandController * RightHand;
+
+    OmniController * OmniWheels;
+
+    std::map<u_int8_t, u_int8_t> ControlModes;
+
+
 
     VectorXd Joint_Angles;
 
@@ -161,25 +209,44 @@ private:
     int PlaybackIndex;
 
 
-    void updatingControllers();
-
-    void readingCallback();
-
     std::vector<u_int8_t> ArrayIDHelper(u_int8_t control_group);
 
     void PlaybackCallback();
 
-    bool CollisionDection();
+    bool GripDetection(u_int8_t joint_id);
 
-    bool CollisionThresholding(VectorXd ActualCurrent , VectorXd ExpectedCurrent);
+    bool CollisionThresholding(VectorXd ActualCurrent , VectorXd ExpectedCurrent, VectorXd Thresholds);
 
-    Vector3d TiltCalcualtion(Matrix3d BaseRotation);
+    bool ReleaseThresholding(VectorXd ActualPosition, VectorXd TargetPosition, VectorXd Thresholds);
 
-    Vector3d UnitVector2XY(Vector3d v);
+    bool CollisionThresholding(double ActualCurrent , double ExpectedCurrent, double Threshold);
+
+    bool ReleaseThresholding(double ActualPosition, double TargetPosition, double Threshold);
+
+
+    Vector3d TiltCalcualtion(Matrix3d BaseRotation, Vector3d BaseAcceleration);
 
     Vector3d Matrix2XY(Matrix3d BaseRotation);
 
+    Matrix3d EulerZX(double z , double x);
+
+    Matrix3d XY2Matrix(Vector3d BaseRotation);
+
+    Vector3d Vector2XY(Vector3d BaseVector);
+
     int num_joint_in_chain;
+
+    int num_joint_in_hand;
+
+    double grip_current;
+
+    VectorXd LeftArmCollisionThreshold;
+
+    VectorXd RightArmCollisionThreshold;
+
+    double HandCollisionThreshold;
+
+
 };
 
 #endif // XR1CONTROLLERPM_H

@@ -23,20 +23,20 @@ enum ActuatorID{
     Neck_Z = 8          ,
     Neck_X = 9          ,
     Head = 10            ,
-    Left_Shoulder_X = 11 ,
+    Left_Shoulder_X = 11,
     Left_Shoulder_Y = 12 ,
     Left_Elbow_Z = 13    ,
     Left_Elbow_X = 14    ,
     Left_Wrist_Z = 15    ,
-    Left_Wrist_Y = 16    ,
-    Left_Wrist_X = 17    ,
+    Left_Wrist_X = 16    ,
+    Left_Wrist_Y = 17    ,
     Right_Shoulder_X = 18,
     Right_Shoulder_Y = 19,
     Right_Elbow_Z = 20   ,
     Right_Elbow_X = 21   ,
     Right_Wrist_Z = 22   ,
-    Right_Wrist_Y = 23   ,
-    Right_Wrist_X = 24   ,
+    Right_Wrist_X = 23   ,
+    Right_Wrist_Y = 24   ,
     Left_Thumb = 25      ,
     Left_Index = 26     ,
     Left_Middle = 27     ,
@@ -65,13 +65,6 @@ enum MetaErrorDefine{
 };
 
 
-enum OmniControlMode{
-    XBoneController,
-    DirectControl,
-    External,
-};
-
-
 enum ValuesOptions{
     ActualPosition,
     ActualVelocity,
@@ -92,6 +85,12 @@ enum PathPlaningMethods{
     EST = 101,
     KPIECE = 102,
     PDST = 103,
+};
+
+
+enum HandGripActions{
+    HandGrip = 401,
+    HandRelease = 402,
 };
 
 

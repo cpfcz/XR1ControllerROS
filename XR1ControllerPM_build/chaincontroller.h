@@ -1,17 +1,25 @@
 #ifndef CHAINCONTROLLER_H
 #define CHAINCONTROLLER_H
 
+#include "genericcontroller.h"
 #include "Eigen/Dense"
 #include "xr1define.h"
 #include <vector>
 
 using namespace Eigen;
 
-class ChainController
+class ChainController: public GenericController
 {
 public:
-    ChainController(MatrixXd DH_input, u_int8_t id , VectorXd Inertia_Parameters);
+    ChainController(MatrixXd DH_input, u_int8_t id , VectorXd Inertia_Parameters , VectorXd Gravity_Parameters, int num_joint);
 
+    VectorXd getTargetJointCurrents();
+
+    std::vector<double> getTargetJointCurrentsStd();
+
+    //For each joint
+
+    double getTargetJointCurrent(u_int8_t joint_id);
 
 
     VectorXd getEFFForce();
@@ -25,7 +33,7 @@ public:
     Vector3d Matrix2XYZ(Matrix3d BaseRotation);
 
     // Update the the base
-    void updateBaseTransformation(MatrixXd BaseT);
+    void updateBaseTransformation(Matrix3d BaseT);
 
     // Returns the last calculated Jacobian matrix
     MatrixXd getJacobian(u_int8_t id);
@@ -33,36 +41,11 @@ public:
     // Return the last calculated end effector Transformation
     MatrixXd getTransformation(u_int8_t JointID);
 
-    VectorXd getJointAngles();
 
-    std::vector<double> getJointAnglesStd();
 
-    VectorXd getJointVelocities();
-
-    std::vector<double> getJointVelocitiesStd();
-
-    VectorXd getJointCurrents();
-
-    std::vector<double> getJointCurrentsStd();
-
-    VectorXd getTargetJointAngles();
-
-    std::vector<double> getTargetJointAnglesStd();
-
-    VectorXd getTargetJointVelocities();
-
-    std::vector<double> getTargetJointVelocitiesStd();
-
-    VectorXd getTargetJointCurrents();
-
-    std::vector<double> getTargetJointCurrentsStd();
-
-    void updateValue(VectorXd JointValue , u_int8_t value_type);
+    void triggerCalculationPass();
 
     VectorXd NewtonEuler();
-
-
-
 
 
     void setEFFIncrement(const Vector3d& Linear , const Vector3d& Angular);
@@ -98,13 +81,10 @@ private:
 
     VectorXd InertiaParameters;
 
-    const int NUM_OF_JOINTS;
+    VectorXd InertiaParameters4dof;
 
-    //Newton Euler Equations for computing the inverse dynamics
-    //Use this for dynamics
+    VectorXd InertiaParameters7dof;
 
-
-    std::vector<VectorXd> IANewtonEuler();
 
     // Saves Jacobian matrix as a the member variable
     void Jacobeans(VectorXd Joint_Angles);
@@ -114,14 +94,7 @@ private:
     void Transformation(VectorXd Joint_Angles);
     MatrixXd T_DH(double d , double offset , double alpha , double ad , double theta);
 
-
-    //Transform 3d vector into Skew Matrix
-    Matrix3d Hatty_Hattington(Vector3d input);
-
-
-    //Transform wenches with Adjoint matrices
-    MatrixXd BigDee(int idx_start , int idx_end);
-
+    MatrixXd BigDee(int idx_start, int idx_end);
 
     Matrix3d EulerXYZ(double x , double y , double z ) ;
 
@@ -133,21 +106,6 @@ private:
 
     Matrix3d BaseRotationTransposed;
 
-    VectorXd Joint_Angles;
-
-    VectorXd Joint_Velocities;
-
-    VectorXd Joint_Currents;
-
-    VectorXd Joint_Acceleration;
-
-    VectorXd Target_Joint_Angles;
-
-    VectorXd Target_Joint_Velocities;
-
-    VectorXd Target_Joint_Acceleration;
-
-    VectorXd Target_Joint_Currents;
 
     VectorXd Dynamic_Compensation;
 
@@ -171,13 +129,72 @@ private:
 
 protected:
 
-    double S1;   double C1;
-    double S2;   double C2;
-    double S3;   double C3;
-    double S4;   double C4;
-    double S5;   double C5;
-    double S6;   double C6;
-    double S7;   double C7;
+
+    //Intermediate for Newton Euler
+    std::vector<MatrixXd> Ks ;
+
+
+
+
+
+
+    //Not Intermediate for Newton Euler;
+    double t2  ;
+    double t3  ;
+    double t4  ;
+    double t5  ;
+    double t6  ;
+    double t7  ;
+    double t8  ;
+    double t9  ;
+    double t10 ;
+    double t11 ;
+    double t12 ;
+    double t13 ;
+    double t14 ;
+    double t15 ;
+    double t16 ;
+    double t17 ;
+    double t18 ;
+    double t19 ;
+    double t20 ;
+    double t21 ;
+    double t22 ;
+
+
+
+    double gx ;
+    double gy ;
+    double gz ;
+
+
+    MatrixXd Regressor;
+
+
+
+    // For Transforms
+    double costheta;
+    double sintheta;
+    double sinalpha;
+    double cosalpha;
+
+    // Jacobeans
+    Vector3d v;
+    Vector3d w_j;
+    Vector3d z;
+
+    Vector3d temp_v_1;
+    Vector3d temp_v_2;
+
+
+    //Transformation
+
+    MatrixXd Trans;
+
+    MatrixXd Temp_Trans;
+
+
+
 
 };
 

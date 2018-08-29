@@ -560,7 +560,7 @@ void XR1ControllerROS::tiltCompensate(const geometry_msgs::Quaternion& msg) {
 
 	Eigen::Quaterniond q(msg.w, msg.x , msg.y , msg.z);
 
-	XR1_ptr->TiltCompensation(q);
+	// XR1_ptr->TiltCompensation(q);
 }
 
 void XR1ControllerROS::triggerNextStep() {
@@ -671,7 +671,7 @@ MatrixXd XR1ControllerROS::getRightArmPositionMatrix() {
 
 void XR1ControllerROS::stepFinishedCallback() {
 
-
+	XR1_ptr->triggerCalculation();
 	switch (ControlModes[XR1::LeftArm]) {
 	case XR1::PositionMode:
 		LeftArmPositionPublisher.publish(ConvertArmMsgs(XR1_ptr->getTargetPosition(XR1::LeftArm)));
