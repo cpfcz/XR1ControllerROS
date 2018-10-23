@@ -1,5 +1,6 @@
 #include "XR1ControllerROS.h"
-
+#include <ros/package.h>
+#include <iostream>
 
 
 #define PI 3.141592654
@@ -7,7 +8,10 @@
 XR1ControllerROS::XR1ControllerROS()
 {
 
-	XR1_ptr = new XR1ControllerPM();
+	std::string path = ros::package::getPath("xr1controllerros");
+
+
+	XR1_ptr = new XR1ControllerPM(path+"/xr1_para.xr1para");
 
 	simulationTime = 0;
 
@@ -349,15 +353,15 @@ void XR1ControllerROS::setRightArmVelocity(const Vector3d& Linear , const Vector
 	XR1_ptr->setRightArmVelocity(Linear , Angular);
 }
 
-void XR1ControllerROS::setLeftArmCurrent(const Vector3d& Force , const Vector3d& Torque) {
+void XR1ControllerROS::setLeftArmForce(const Vector3d& Force , const Vector3d& Torque) {
 
-	XR1_ptr->setLeftArmCurrent(Force , Torque);
+	XR1_ptr->setLeftArmForce(Force , Torque);
 
 }
 
-void XR1ControllerROS::setRightArmCurrent(const Vector3d& Force , const Vector3d& Torque) {
+void XR1ControllerROS::setRightArmForce(const Vector3d& Force , const Vector3d& Torque) {
 
-	XR1_ptr->setRightArmCurrent(Force , Torque);
+	XR1_ptr->setRightArmForce(Force , Torque);
 
 }
 
@@ -377,12 +381,12 @@ void XR1ControllerROS::setRightArmIncrement(const VectorXd& twist) {
 	XR1_ptr->setRightArmIncrement(twist);
 }
 
-void XR1ControllerROS::setLeftArmCurrent(const VectorXd& twist) {
-	XR1_ptr->setLeftArmCurrent(twist);
+void XR1ControllerROS::setLeftArmForce(const VectorXd& twist) {
+	XR1_ptr->setLeftArmForce(twist);
 }
 
-void XR1ControllerROS::setRightArmCurrent(const VectorXd& twist) {
-	XR1_ptr->setRightArmCurrent(twist);
+void XR1ControllerROS::setRightArmForce(const VectorXd& twist) {
+	XR1_ptr->setRightArmForce(twist);
 }
 
 
@@ -592,13 +596,9 @@ void XR1ControllerROS::setJointAttribute(u_int8_t joint_idx , u_int8_t attribute
 
 
 
-void XR1ControllerROS::setLeftArmDynamicSwitch(bool option) {
-	XR1_ptr->setLeftArmDynamicSwitch(option);
+void XR1ControllerROS::setInverseDynamicsOption(int control_group , u_int8_t option){
+	XR1_ptr->setInverseDynamicsOption(control_group , option);
 }
-void XR1ControllerROS::setRightArmDynamicSwitch(bool option) {
-	XR1_ptr->setRightArmDynamicSwitch(option);
-}
-
 
 
 
@@ -670,8 +670,10 @@ MatrixXd XR1ControllerROS::getRightArmPositionMatrix() {
 }
 
 void XR1ControllerROS::stepFinishedCallback() {
-
+ROS_INFO("XR!  debug");
 	XR1_ptr->triggerCalculation();
+
+
 	switch (ControlModes[XR1::LeftArm]) {
 	case XR1::PositionMode:
 		LeftArmPositionPublisher.publish(ConvertArmMsgs(XR1_ptr->getTargetPosition(XR1::LeftArm)));

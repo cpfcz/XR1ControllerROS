@@ -90,7 +90,7 @@ void stepFinishedCallback(const std_msgs::Bool& msg) {
     //Uses Inverse Kinematics Mode to get into position
     static Eigen::VectorXd startPOS = Eigen::VectorXd::Zero(6);
 
-    startPOS << 0.4 , 0 , 0 , -3.14/2.0 , 3.14 , 0;
+    startPOS << 0.4 , 0 , 0 , -3.14 / 2.0 , 3.14 , 0;
 
     if (t <= 2.0) {
 
@@ -109,13 +109,13 @@ void stepFinishedCallback(const std_msgs::Bool& msg) {
 
       // Changing Mode to Start Drawing
 
-      ROS_INFO("Start Drawing");	
+      ROS_INFO("Start Drawing");
 
-      XR1_ptr->setControlMode(XR1::RightArm , XR1::ForceMode);
+      XR1_ptr->setControlMode(XR1::RightArm , XR1::VelocityMode);
 
       XR1_ptr->setControlMode(XR1::LeftArm , XR1::VelocityMode);
 
-      XR1_ptr->setRightArmDynamicSwitch(true);
+      XR1_ptr->setInverseDynamicsOption(XR1::RightArm , XR1::GravityCompensation);
 
 
     }
@@ -125,41 +125,12 @@ void stepFinishedCallback(const std_msgs::Bool& msg) {
   else {
 
 
-    //The Loop For Drawing
+    //The Loop For drawing loops (Haha)
 
-    //LeftArm is commanded with Force Mode with EFF error control
-    Eigen::VectorXd CurrentTwist = XR1_ptr->getRightArmPosition();
-
-    Eigen::Vector3d TargetPos = Eigen::VectorXd::Zero(3);
-
-    TargetPos << TrajectoryPositionFunction(t);
-
-
-    static Eigen::Vector3d TargetRot = CurrentTwist.segment<3>(3);
-
-    // Eigen::VectorXd TargetTwist = Eigen::VectorXd::Zero(6);
-
-    // TargetTwist << 0.4 , 0 , 0 , 0 , 0 , 0;
-
-
-    Eigen::Vector3d PosErrors = pos_error_gain.cwiseProduct (TargetPos - CurrentTwist.segment<3>(0)  );
-    Eigen::Vector3d RotErrors = VectorXd::Zero(3);
-
-    // ROS_INFO("TargetTwist is [%f] [%f] [%f] [%f] [%f] [%f] ", TargetTwist(0) , TargetTwist(1) ,TargetTwist(2) ,TargetTwist(3) ,TargetTwist(4) , TargetTwist(5) );
-
-    // ROS_INFO("CurrentTwist is [%f] [%f] [%f] [%f] [%f] [%f] ", CurrentTwist(0) , CurrentTwist(1) ,CurrentTwist(2) ,CurrentTwist(3) ,CurrentTwist(4) , CurrentTwist(5) );
-
-    ROS_INFO("PosErrors is [%f] [%f] [%f] ", PosErrors(0) , PosErrors(1) ,PosErrors(2));
-
-    // ROS_INFO("CurrentRot is [%f] [%f] [%f] ", CurrentTwist(3) , CurrentTwist(4) ,CurrentTwist(5));
-
-
-    XR1_ptr->setRightArmCurrent( PosErrors ,  RotErrors) ;
+    XR1_ptr->setLeftArmVelocity(TrajectorySpeedFunction(t) , Eigen::VectorXd::Zero(3)) ;
 
     //The Right Arm is commanded with Velocity Mode
     XR1_ptr->setLeftArmVelocity(TrajectorySpeedFunction(t) , Eigen::VectorXd::Zero(3))  ;
-
-    CurrentTwist = XR1_ptr->getLeftArmPosition();
 
   }
 

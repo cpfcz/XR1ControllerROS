@@ -3,6 +3,7 @@
 #include "Eigen/Dense"
 #include <vector>
 #include "xr1define.h"
+#include <iostream>
 
 using namespace Eigen;
 class GenericController
@@ -14,7 +15,7 @@ public:
 
     virtual void updateValue(double JointValue, u_int8_t JointID , u_int8_t value_type);
 
-    //Each Group
+    //Retrive Current Values from each group
     virtual VectorXd getJointAngles();
 
     virtual std::vector<double> getJointAnglesStd();
@@ -23,10 +24,17 @@ public:
 
     virtual std::vector<double> getJointVelocitiesStd();
 
+    virtual VectorXd getTargetJointAccelerations();
+
+    virtual std::vector<double> getTargetJointAccelerationsStd();
+
     virtual VectorXd getJointCurrents();
 
     virtual std::vector<double> getJointCurrentsStd();
 
+
+
+    //Retrive Target Values from each group
     virtual VectorXd getTargetJointAngles();
 
     virtual std::vector<double> getTargetJointAnglesStd();
@@ -46,8 +54,12 @@ public:
 
     virtual double getJointVelocity(u_int8_t joint_id);
 
+    virtual double getJointAcceleration(u_int8_t joint_id);
+
     virtual double getJointCurrent(u_int8_t joint_id);
 
+
+    //Get Target Values
     virtual double getTargetJointAngle(u_int8_t joint_id);
 
     virtual double getTargetJointVelocity(u_int8_t joint_id);
@@ -56,25 +68,84 @@ public:
 
 
     //Transform 3d vector into Skew Matrix
-    virtual Matrix3d Hatty_Hattington(Vector3d input);
+    virtual Matrix3d Hatty_Hattington(Vector3d x);
 
-protected:
+    virtual void Hatty_Hattington(Vector3d x , Matrix3d & input);
+
+    virtual void setPeriod(double reading_interval_in_second);
+
+
+		
+
+
+
+    //Dumb empty virtual functions
+
+    virtual VectorXd getEFFForce();
+
+    virtual VectorXd getEFFVelocity();
+
+    virtual VectorXd getEFFPosition();
+
+    virtual MatrixXd getEFFPositionMatrix();
+
+    // Update the the base
+//    void updateBaseTransformation(Matrix3d BaseT);
+
+    // Returns the last calculated Jacobian matrix
+    virtual MatrixXd getJacobian(u_int8_t id);
+
+    // Return the last calculated end effector Transformation
+    virtual MatrixXd getTransformation(u_int8_t JointID);
+
+
+    virtual void setEFFIncrement(const Vector3d& Linear , const Vector3d& Angular);
+
+    virtual void setEFFVelocity(const Vector3d& Linear , const Vector3d& Angular);
+
+    virtual void setEFFCurrent(const Vector3d& Force , const Vector3d& Torque);
+
+    virtual void setEFFIncrement(const VectorXd& twist);
+
+    virtual void setEFFVelocity(const VectorXd& twist);
+
+    virtual void setEFFCurrent(const VectorXd& twist);
+
+    virtual bool setEFFPosition(const VectorXd& twist , const double &elbow_lift_angle);
+
+    virtual bool setEFFPosition(const Matrix3d &rotation , const Vector3d &position , const double &elbow_lift_angle);
+
+    virtual bool setEFFPosition(const MatrixXd &transformation, const double &elbow_lift_angle);
+
+
+
+    // Free for grabbing values
     VectorXd Joint_Angles;
     VectorXd Joint_Velocities;
     VectorXd Joint_Acceleration;
     VectorXd Joint_Currents;
     VectorXd Target_Joint_Angles;
     VectorXd Target_Joint_Velocities;
+    VectorXd Target_Joint_Acceleration;
     VectorXd Target_Joint_Currents;
+
+    u_int8_t DynamicOption;
+
+protected:
+
     u_int8_t Begin_ID;
     int NUM_OF_JOINTS;
     double period;
 
-    double tinyFilter(double new_v , double old_v);
 
-    double simpleFilter(double new_val , double input , double ratios);
 
-    Vector3d simpleFilter(Vector3d new_val , Vector3d input , double ratios);
+
+    double simpleFilter(double new_val , double old_val , double ratios);
+
+    VectorXd simpleFilter(VectorXd new_val , VectorXd old_val , double ratios);
+
+
+    double sign(double input);
 };
 
 #endif // GENERICCONTROLLER_H

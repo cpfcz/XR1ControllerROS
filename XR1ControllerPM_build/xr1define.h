@@ -68,9 +68,11 @@ enum MetaErrorDefine{
 enum ValuesOptions{
     ActualPosition,
     ActualVelocity,
+    ActualAcceleration,
     ActualCurrent,
     TargetPosition,
     TargetVelocity,
+    TargetAcceleration,
     TargetCurrent,
 };
 
@@ -92,6 +94,14 @@ enum HandGripActions{
     HandGrip = 401,
     HandRelease = 402,
 };
+
+
+enum InverseDynamicsOptions{
+    None = 0,
+    GravityCompensation = 502,
+    FullDynamics = 503,
+};
+
 
 
 }
