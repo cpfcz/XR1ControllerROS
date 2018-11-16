@@ -9,11 +9,11 @@ using namespace Eigen;
 class GenericController
 {
 public:
-    GenericController(u_int8_t id , int num_joint);
+    GenericController(uint8_t id , int num_joint);
 
-    virtual void updateValue(VectorXd JointValue , u_int8_t value_type);
+    virtual void updateValue(VectorXd JointValue , uint8_t value_type);
 
-    virtual void updateValue(double JointValue, u_int8_t JointID , u_int8_t value_type);
+    virtual void updateValue(double JointValue, uint8_t JointID , uint8_t value_type);
 
     //Retrive Current Values from each group
     virtual VectorXd getJointAngles();
@@ -50,21 +50,21 @@ public:
 
 
     //For each finger
-    virtual double getJointAngle(u_int8_t joint_id);
+    virtual double getJointAngle(uint8_t joint_id);
 
-    virtual double getJointVelocity(u_int8_t joint_id);
+    virtual double getJointVelocity(uint8_t joint_id);
 
-    virtual double getJointAcceleration(u_int8_t joint_id);
+    virtual double getJointAcceleration(uint8_t joint_id);
 
-    virtual double getJointCurrent(u_int8_t joint_id);
+    virtual double getJointCurrent(uint8_t joint_id);
 
 
     //Get Target Values
-    virtual double getTargetJointAngle(u_int8_t joint_id);
+    virtual double getTargetJointAngle(uint8_t joint_id);
 
-    virtual double getTargetJointVelocity(u_int8_t joint_id);
+    virtual double getTargetJointVelocity(uint8_t joint_id);
 
-    virtual double getTargetJointCurrent(u_int8_t joint_id);
+    virtual double getTargetJointCurrent(uint8_t joint_id);
 
 
     //Transform 3d vector into Skew Matrix
@@ -80,9 +80,6 @@ public:
 
 
     //Dumb empty virtual functions
-
-    virtual VectorXd getEFFForce();
-
     virtual VectorXd getEFFVelocity();
 
     virtual VectorXd getEFFPosition();
@@ -93,10 +90,10 @@ public:
 //    void updateBaseTransformation(Matrix3d BaseT);
 
     // Returns the last calculated Jacobian matrix
-    virtual MatrixXd getJacobian(u_int8_t id);
+    virtual MatrixXd getJacobian(uint8_t id);
 
     // Return the last calculated end effector Transformation
-    virtual MatrixXd getTransformation(u_int8_t JointID);
+    virtual MatrixXd getTransformation(uint8_t JointID);
 
 
     virtual void setEFFIncrement(const Vector3d& Linear , const Vector3d& Angular);
@@ -127,17 +124,17 @@ public:
     VectorXd Target_Joint_Angles;
     VectorXd Target_Joint_Velocities;
     VectorXd Target_Joint_Acceleration;
-    VectorXd Target_Joint_Currents;
 
-    u_int8_t DynamicOption;
+
+    uint8_t DynamicsOption;
 
 protected:
 
-    u_int8_t Begin_ID;
+    uint8_t Begin_ID;
     int NUM_OF_JOINTS;
     double period;
 
-
+    VectorXd Target_Joint_Currents;
 
 
     double simpleFilter(double new_val , double old_val , double ratios);

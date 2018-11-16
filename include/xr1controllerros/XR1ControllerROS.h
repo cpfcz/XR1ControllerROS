@@ -64,98 +64,98 @@ public:
 	//Used in the XR1Controller
 	//Argu: Joint ID , Attribute ID , value
 	//Reutrns : void , may add error message in the fulture
-	void setJointAttribute(u_int8_t joint_idx , u_int8_t attribute_idx , double value);
+	void setJointAttribute(uint8_t joint_idx , uint8_t attribute_idx , double value);
 
 
 	//Set the Target Joint Positions for an entire control group, i.e. LeftARM , RightHand
 	//Used in the XR1Controller
 	//Argu: Control Group ID , Angles contained in Eigen::VectorXd
 	//Reutrns : void , may add error message in the fulture
-	void setJointPosition(u_int8_t control_group , VectorXd JA);
+	void setJointPosition(uint8_t control_group , VectorXd JA);
 
 
 	//Set the Target Joint Positions for a single joint, i.e. LeftShoulderX , RightWristZ
 	//Used in the XR1Controller
 	//Argu: Control Group ID , Angles contained in std::vector<double>
 	//Reutrns : void , may add error message in the fulture
-	void setJointPosition(u_int8_t joint_idx ,   double JA);
+	void setJointPosition(uint8_t joint_idx ,   double JA);
 
 
 	//Set the Target Joint Velocity for an entire control group, i.e. LeftARM , RightHand
 	//Used in the XR1Controller
 	//Argu: Control Group ID , Angular Velocity contained in Eigen::VectorXd
 	//Reutrns : void , may add error message in the fulture
-	void setJointVelocity(u_int8_t control_group , VectorXd JV);
+	void setJointVelocity(uint8_t control_group , VectorXd JV);
 
 
 	//Set the Target Joint Velocity for a single joint, i.e. LeftShoulderX , RightWristZ
 	//Used in the XR1Controller
 	//Argu: Control Group ID , Angular Velocity contained in std::vector<double>
 	//Reutrns : void , may add error message in the fulture
-	void setJointVelocity(u_int8_t joint_idx ,   double JV);
+	void setJointVelocity(uint8_t joint_idx ,   double JV);
 
 
 	//Set the Target Joint Positions for an entire control group, i.e. LeftARM , RightHand
 	//Used in the XR1Controller
 	//Argu: Control Group ID , Target Current
 	//Reutrns : void , may add error message in the fulture
-	void setJointCurrent(u_int8_t control_group , VectorXd JC);
+	void setJointCurrent(uint8_t control_group , VectorXd JC);
 
 
 	//Set the Target Joint Velocity for a single joint, i.e. LeftShoulderX , RightWristZ
 	//Used in the XR1Controller
 	//Argu: Control Group ID , Angular Velocity contained in std::vector<double>
 	//Reutrns : void , may add error message in the fulture
-	void setJointCurrent(u_int8_t joint_idx ,   double JC);
+	void setJointCurrent(uint8_t joint_idx ,   double JC);
 
 
 	//Get the Current Joint Angles for an entire control group, i.e. LeftARM , RightHand
 	//Used in the XR1Controller
 	//Argu: Control Group ID
 	//Reutrns : JointAngles contained in Eigen::VectorXd
-	VectorXd getJointPositions(u_int8_t control_group);
+	VectorXd getJointPositions(uint8_t control_group);
 
 
 	//Get the Current Joint Angles for an entire control group, i.e. LeftARM , RightHand
 	//Used in the XR1Controller
 	//Argu: Control Group ID
 	//Reutrns : JointAngles contained in std::vector
-	std::vector<double> getJointPositionsStd(u_int8_t control_group);
+	std::vector<double> getJointPositionsStd(uint8_t control_group);
 
 
 	//Get the Current Joint Velocites for an entire control group, i.e. LeftARM , RightHand
 	//Used in the XR1Controller
 	//Argu: Control Group ID
 	//Reutrns : Joint Velocities contained in Eigen::VectorXd
-	VectorXd getJointVelocities(u_int8_t control_group);
+	VectorXd getJointVelocities(uint8_t control_group);
 
 
 	//Get the Current Joint Velocites for an entire control group, i.e. LeftARM , RightHand
 	//Used in the XR1Controller
 	//Argu: Control Group ID
 	//Reutrns : Joint Velocites contained in std::vector
-	std::vector<double> getJointVelocitiesStd(u_int8_t control_group);
+	std::vector<double> getJointVelocitiesStd(uint8_t control_group);
 
 
 	//Get the Current Joint Currents for an entire control group, i.e. LeftARM , RightHand
 	//Used in the XR1Controller
 	//Argu: Control Group ID
 	//Reutrns : Joint Currents contained in Eigen::VectorXd
-	VectorXd getJointCurrents(u_int8_t control_group);
+	VectorXd getJointCurrents(uint8_t control_group);
 
 
 	//Get the Current Joint Currents for an entire control group, i.e. LeftARM , RightHand
 	//Used in the XR1Controller
 	//Argu: Control Group ID
 	//Reutrns : Joint Currents contained in std::vector
-	std::vector<double> getJointCurrentsStd(u_int8_t control_group);
+	std::vector<double> getJointCurrentsStd(uint8_t control_group);
 
 
 	//Set the Control Method for an entire Control Group , i.e. LeftARM , RightHand
 	//Used in the XR1Controller
 	//Argu: Control Group ID , Conrol Mode ID
 	//Reutrns : void , may add error message in the fulture
-	void setControlMode(u_int8_t control_group , u_int8_t option);
+	void setControlMode(uint8_t control_group , uint8_t option);
 
 
 	// (Not Imlemented ) Set the Velocity for OmniWheels
@@ -169,7 +169,7 @@ public:
 	//
 	//Argu: Control Group ID ( Only LeftArm and RightArm) ,  Method ID
 	//Reutrns : void , may add error message in the fulture
-	void setPathPlanningMethod(u_int8_t control_group , u_int8_t method);
+	void setPathPlanningMethod(uint8_t control_group , uint8_t method);
 
 
 	// Trigger the Next Simulation Step in V-REP
@@ -190,14 +190,14 @@ public:
 	//Used in XR1Controller
 	//Argu: Joint ID (Only From LeftShoulderX to RightWristX)
 	//Reutrns : A 6x7 Eigen::MatrixXd of Jacobians or A 6x7 Eigen::MatrixXd of zeros should an error occur
-	MatrixXd getJacobian(u_int8_t joint_idx);
+	MatrixXd getJacobian(uint8_t joint_idx);
 
 
 	//Get the last calculated Jacobian from XR1Controller for several joints
 	//Used in XR1Controller
 	//Argu: Vector of Joint ID (Only From LeftShoulderX to RightWristX)
 	//Reutrns : A 6x7 Eigen::MatrixXd of Jacobians or A 6x7 Eigen::MatrixXd of zeros should an error occur
-	std::vector<MatrixXd> getJacobian(std::vector<u_int8_t> joint_idx_list);
+	std::vector<MatrixXd> getJacobian(std::vector<uint8_t> joint_idx_list);
 
 
 	//-------------------End Effector (Wrist) Control ---------------------------
@@ -259,11 +259,6 @@ public:
 	void setRightArmForce(const Vector3d& Force , const Vector3d& Torque);
 	void setRightArmForce(const VectorXd& twist);
 
-	//get the net force on End Effector of the left arm
-	//Used in XR1Controller , Needs to be refreshed every simulation step when used
-	//Argu: N/A
-	//Reutrns : VectorXd of 3 forces and 3 torques , may add error message in the fulture
-	VectorXd getLeftArmForce();
 
 	//get the velocity on End Effector of the left arm
 	//Used in XR1Controller , Needs to be refreshed every simulation step when used
@@ -283,11 +278,6 @@ public:
 	//Reutrns : A homogenous transformation (4x4)
 	MatrixXd getLeftArmPositionMatrix() ;
 
-	//get the net force on End Effector of the right arm
-	//Used in XR1Controller , Needs to be refreshed every simulation step when used
-	//Argu: N/A
-	//Reutrns : VectorXd of 3 forces and 3 torques , may add error message in the fulture
-	VectorXd getRightArmForce() ;
 
 	//get the velocity on End Effector of the left arm
 	//Used in XR1Controller , Needs to be refreshed every simulation step when used
@@ -319,10 +309,10 @@ public:
 	//Used in XR1Controller.
 	//Argu: option true/false, if true, it will calculate an offfset value based on the orientation of the OmniWheels
 	//Reutrns : void , may add error message in the fulture
-	void setInverseDynamicsOption(int control_group , u_int8_t option);
+	void setInverseDynamicsOption(uint8_t option);
 
 
-	std::map<u_int8_t, u_int8_t> ControlModes;
+	std::map<uint8_t, uint8_t> ControlModes;
 
 
 	// Convert Joint ROS Messages
@@ -353,7 +343,7 @@ public:
 protected:
 
 	//Helper Functions that users should not worry about
-	void updatingCallback(VectorXd JointValue, u_int8_t control_group , u_int8_t values_type);
+	void updatingCallback(VectorXd JointValue, uint8_t control_group , uint8_t values_type);
 
 	void tiltCompensate(const geometry_msgs::Quaternion& msg);
 
@@ -379,9 +369,9 @@ protected:
 
 	void simulationTimeCallback(const std_msgs::Float32& msg);
 
-	void updateControllers(u_int8_t ControlGroup , u_int8_t InformationType);
+	void updateControllers(uint8_t ControlGroup , uint8_t InformationType);
 
-	std::vector<u_int8_t> ArrayIDHelper(u_int8_t control_group);
+	std::vector<uint8_t> ArrayIDHelper(uint8_t control_group);
 
 	void PlaybackCallback();
 

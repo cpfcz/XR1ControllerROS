@@ -10,6 +10,7 @@
 #include "dynamicmethod.h"
 #include <map>
 #include <vector>
+#include <list>
 #include "Eigen/Geometry"
 #include "xr1define.h"
 
@@ -29,105 +30,105 @@ public:
     //Used in the XR1Controller
     //Argu: Control Group ID , Angles contained in Eigen::VectorXd
     //Reutrns : void , may add error message in the fulture
-    VectorXd setJointPosition(u_int8_t control_group ,VectorXd JA);
+    VectorXd setJointPosition(uint8_t control_group ,VectorXd JA);
 
     //Set the Target Joint Velocity for an entire control group, i.e. LeftARM , RightHand
     //Used in the XR1Controller
     //Argu: Control Group ID , Angular Velocity contained in Eigen::VectorXd
     //Reutrns : void , may add error message in the fulture
-    VectorXd setJointVelocity(u_int8_t control_group ,VectorXd JV);
+    VectorXd setJointVelocity(uint8_t control_group ,VectorXd JV);
 
     //Set the Target Joint Currents for an entire control group, i.e. LeftARM , RightHand
     //Used in the XR1Controller
     //Argu: Control Group ID , Target Current
     //Reutrns : void , may add error message in the fulture
-    VectorXd setJointCurrent(u_int8_t control_group ,VectorXd JC);
+    VectorXd setJointCurrent(uint8_t control_group , VectorXd JC);
 
 
     //Set the Target Joint Positions for a single joint, i.e. LeftShoulderX , RightWristZ
     //Used in the XR1Controller
     //Argu: Control Group ID , Angles contained in std::vector<double>
     //Reutrns : void , may add error message in the fulture
-    void setJointPosition(u_int8_t JointID ,double JA);
+    void setJointPosition(uint8_t JointID ,double JA);
 
     //Set the Target Joint Velocity for a single joint, i.e. LeftShoulderX , RightWristZ
     //Used in the XR1Controller
     //Argu: Control Group ID , Angular Velocity contained in std::vector<double>
     //Reutrns : void , may add error message in the fulture
-    void setJointVelocity(u_int8_t JointID ,double JV);
+    void setJointVelocity(uint8_t JointID ,double JV);
 
 
     //Set the Target Joint Acceleration for a single joint, i.e. LeftShoulderX , RightWristZ
     //Used in the XR1Controller
     //Argu: Control Group ID , Angular Velocity contained in std::vector<double>
     //Reutrns : void , may add error message in the fulture
-    void setJointAcceleration(u_int8_t JointID ,double JACC);
+    void setJointAcceleration(uint8_t JointID ,double JACC);
 
     //Set the Target Joint Currents for a single joint, i.e. LeftShoulderX , RightWristZ
     //Used in the XR1Controller
     //Argu: Control Group ID , Angular Velocity contained in std::vector<double>
     //Reutrns : void , may add error message in the fulture
-    void setJointCurrent(u_int8_t JointID ,double JC);
+    void setJointCurrent(uint8_t JointID ,double JC);
 
     //Get the Current Joint Angles for an entire control group, i.e. LeftARM , RightHand
     //Used in the XR1Controller
     //Argu: Control Group ID
     //Reutrns : JointAngles contained in Eigen::VectorXd
-    VectorXd getJointPositions(u_int8_t control_group);
+    VectorXd getJointPositions(uint8_t control_group);
 
     //Get the Current Joint Angles for an entire control group, i.e. LeftARM , RightHand
     //Used in the XR1Controller
     //Argu: Control Group ID
     //Reutrns : JointAngles contained in std::vector
-    std::vector<double> getJointPositionsStd(u_int8_t control_group);
+    std::vector<double> getJointPositionsStd(uint8_t control_group);
 
     //Get the Current Joint Velocites for an entire control group, i.e. LeftARM , RightHand
     //Used in the XR1Controller
     //Argu: Control Group ID
     //Reutrns : Joint Velocities contained in Eigen::VectorXd
-    VectorXd getJointVelocities(u_int8_t control_group);
+    VectorXd getJointVelocities(uint8_t control_group);
 
     //Get the Current Joint Velocites for an entire control group, i.e. LeftARM , RightHand
     //Used in the XR1Controller
     //Argu: Control Group ID
     //Reutrns : Joint Velocites contained in std::vector
-    std::vector<double> getJointVelocitiesStd(u_int8_t control_group);
+    std::vector<double> getJointVelocitiesStd(uint8_t control_group);
 
     //Get the Current Joint Currents for an entire control group, i.e. LeftARM , RightHand
     //Used in the XR1Controller
     //Argu: Control Group ID
     //Reutrns : Joint Currents contained in Eigen::VectorXd
-    VectorXd getJointCurrents(u_int8_t control_group);
+    VectorXd getJointCurrents(uint8_t control_group);
 
     //Get the Current Joint Currents for an entire control group, i.e. LeftARM , RightHand
     //Used in the XR1Controller
     //Argu: Control Group ID
     //Reutrns : Joint Currents contained in std::vector
-    std::vector<double> getJointCurrentsStd(u_int8_t control_group);
+    std::vector<double> getJointCurrentsStd(uint8_t control_group);
 
 
     //For each joint
-    double getJointAngle(u_int8_t joint_id);
+    double getJointAngle(uint8_t joint_id);
 
-    double getJointVelocity(u_int8_t joint_id);
+    double getJointVelocity(uint8_t joint_id);
 
-    double getJointCurrent(u_int8_t joint_id);
+    double getJointCurrent(uint8_t joint_id);
 
     //---------------------------------------------------------------------------------
     //Get Target Position for Arms or Body
-    VectorXd getTargetPosition(u_int8_t control_group);
+    VectorXd getTargetPosition(uint8_t control_group);
 
     //Get Target velocity for Arms or Body
-    VectorXd getTargetVelocity(u_int8_t control_group);
+    VectorXd getTargetVelocity(uint8_t control_group);
 
     //Get Target Current for Arms or Body
-    VectorXd getTargetCurrent(u_int8_t control_group);
+    VectorXd getTargetCurrent(uint8_t control_group);
 
-    double getTargetJointPosition(u_int8_t joint_id);
+    double getTargetJointPosition(uint8_t joint_id);
 
-    double getTargetJointVelocity(u_int8_t joint_id);
+    double getTargetJointVelocity(uint8_t joint_id);
 
-    double getTargetJointCurrent(u_int8_t joint_id);
+    double getTargetJointCurrent(uint8_t joint_id);
 
 
     //Zero all the values
@@ -141,16 +142,16 @@ public:
     //Used in the XR1Controller
     //Argu: Control Group ID , Conrol Mode ID
     //Reutrns : void , may add error message in the fulture
-    void setControlMode(u_int8_t control_group ,u_int8_t option);
-    u_int8_t getControlMode(u_int8_t control_group);
+    void setControlMode(uint8_t control_group ,uint8_t option);
+    uint8_t getControlMode(uint8_t control_group);
 
 
     void errorHandle();
 
 
     //Update the actual values for controllers
-    void updatingCallback(VectorXd JointValue, u_int8_t control_group , u_int8_t values_type);
-    void updatingCallback(double JointValue, u_int8_t JointID , u_int8_t values_type);
+    void updatingCallback(VectorXd JointValue, uint8_t control_group , uint8_t values_type);
+    void updatingCallback(double JointValue, uint8_t JointID , uint8_t values_type);
 
 
     // Trigger the Calcualtions
@@ -162,26 +163,26 @@ public:
     //--------------------------------------------------------------------------------
 
     //Toggle the dynamic modes for left and right arm, be very careful with the options
-    void setInverseDynamicsOption(u_int8_t control_group , u_int8_t option);
+    void setInverseDynamicsOption( uint8_t option);
     //----------------------------------------------------------------------------------
 
 
 
-    MatrixXd getJacobian(u_int8_t joint_idx);
+    MatrixXd getJacobian(uint8_t joint_idx);
 
-    std::vector<MatrixXd> getJacobian(std::vector<u_int8_t> joint_idx_list);
+    std::vector<MatrixXd> getJacobian(std::vector<uint8_t> joint_idx_list);
 
 
     // Brutal Straight Forward Controls----------------------------------------------
-    void setEndEffectorIncrement(u_int8_t control_group ,const Vector3d& Linear , const Vector3d& Angular);
+    void setEndEffectorIncrement(uint8_t control_group ,const Vector3d& Linear , const Vector3d& Angular);
     void setLeftArmIncrement(const Vector3d& Linear , const Vector3d& Angular);
     void setRightArmIncrement(const Vector3d& Linear , const Vector3d& Angular);
 
-    void setEndEffectorVelocity(u_int8_t control_group ,const Vector3d& Linear , const Vector3d& Angular);
+    void setEndEffectorVelocity(uint8_t control_group ,const Vector3d& Linear , const Vector3d& Angular);
     void setLeftArmVelocity(const Vector3d& Linear , const Vector3d& Angular);
     void setRightArmVelocity(const Vector3d& Linear , const Vector3d& Angular);
 
-    void setEndEffectorForce(u_int8_t control_group , const Vector3d& Linear , const Vector3d& Torque);
+    void setEndEffectorForce(uint8_t control_group , const Vector3d& Linear , const Vector3d& Torque);
     void setLeftArmForce(const Vector3d& Force , const Vector3d& Torque);
     void setRightArmForce(const Vector3d& Force , const Vector3d& Torque);
 
@@ -228,43 +229,50 @@ public:
 
     double tinyBezier(double double_index , double pt_s , double pt_1 , double pt_2 , double pt_e);
 
-    bool CollisionDetection(u_int8_t control_group);
+    bool CollisionDetection(uint8_t control_group);
 
-    void setPeriod(u_int8_t control_group, double reading_interval_in_second);
+    void setPeriod(uint8_t control_group, double reading_interval_in_second);
 
 
     //OmniWheels Controls-----------------------------------------------------------------
     void SetOmniWheelsVelocity(Vector3d input);
 
 
-    void setState(std::vector<double> goal_configuration ,double  period, double control_rate = 200);
+    void setState(std::vector<double> goal_configuration , int period_in_ms, int control_rate = 200);
 
     std::vector<double> getNextState();
+
+    void liftLockdown();
+
+    bool isXR1Okay();
 
 private:
 
 
+    void getState();
 
-    virtual void tinyBezier(double & path_p , double & start_p, double & first_p, double & last_p, double & end_p, double double_index);
+    void clearState();
 
-    virtual void tinyBezvel(double & path_v , double & start_p, double & first_p, double & last_p, double & end_p, double  double_index);
+    void calculateStates();
 
-    virtual void tinyBezacc(double & path_a , double & start_p, double & first_p, double & last_p, double & end_p, double  double_index);
+    void assignState();
+
+    void employLockdown();
+
+    uint8_t XR1_State;
+
+    std::vector<double> Qmin;
+
+    void solveTri(double & qmin , double & pt_s, double & pt_e, double &  period);
+
+    void tinyTriPos(double &value, double & qmin , double &pt_s, double &pt_e);
+    void tinyTriVel(double &value, double & qmin );
+    void tinyTriAcc(double &value, double & qmin );
 
 
-    virtual void getState();
+    std::map<uint8_t ,GenericController *> ControllerMap;
 
-    virtual void tinyBezier(std::vector<double> & path , double & start_p, double & first_p, double & last_p, double & end_p, double & time_s , double rate = 200);
-
-    virtual void tinyBezier(std::vector<double> & path ,double & start_p, double & end_p, double & time_s ,double rate = 200);
-
-    virtual void groupBezier(std::vector<std::vector<double> > & path , std::vector<double> & start_p, std::vector<double> & end_p, double & time_s ,double rate = 200);
-
-
-
-    std::map<u_int8_t ,GenericController *> ControllerMap;
-
-    std::map<u_int8_t , u_int8_t> ControllerIDs;
+    std::map<uint8_t , uint8_t> ControllerIDs;
 
     ChainController * LeftArm;
 
@@ -282,7 +290,7 @@ private:
     DynamicMethod * DungeonMaster;
 
 
-    std::map<u_int8_t, u_int8_t> ControlModes;
+    std::map<uint8_t, uint8_t> ControlModes;
 
 
 
@@ -297,11 +305,11 @@ private:
 
     std::vector<std::vector<double> > readParameter(std::string parameter_path);
 
-    std::vector<u_int8_t> ArrayIDHelper(u_int8_t control_group);
+    std::vector<uint8_t> ArrayIDHelper(uint8_t control_group);
 
     void PlaybackCallback();
 
-    bool GripDetection(u_int8_t joint_id);
+    bool GripDetection(uint8_t joint_id);
 
     bool CollisionThresholding(VectorXd ActualCurrent , VectorXd ExpectedCurrent, std::vector<double> Thresholds, std::vector<double> StaticThreshold);
 
@@ -335,11 +343,19 @@ private:
 
     std::vector<double> start_state;
     std::vector<double> goal_state;
-    std::vector<double> current_state;
+    std::vector<std::vector<double> > tri_states;
+    std::vector<std::vector<double> > tri_vels;
+    std::vector<std::vector<double> > tri_accs;
+    std::vector<double> temp_state;
 
-    double bezier_period;
-    double bezier_index;
-    double bezier_rate;
+
+    int poly_period_ms;
+    double poly_period_s;
+    int poly_rate;
+    int poly_index;
+    int poly_num;
+    double poly_double;
+
 
     std::vector<double> LeftArmCollisionThreshold;
 

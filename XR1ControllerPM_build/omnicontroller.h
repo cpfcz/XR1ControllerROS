@@ -10,7 +10,7 @@ class OmniController : public GenericController
 {
 
 public:
-    OmniController(u_int8_t id, u_int8_t num_joint);
+    OmniController(uint8_t id, uint8_t num_joint);
 
     void setVelocity(Vector3d input);
 

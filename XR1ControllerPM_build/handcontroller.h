@@ -9,7 +9,7 @@ using namespace Eigen;
 class HandController : public GenericController
 {
 public:
-    HandController(u_int8_t id , int num_joint);
+    HandController(uint8_t id , int num_joint);
 
 };
 

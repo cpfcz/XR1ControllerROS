@@ -57,9 +57,9 @@ enum ChainOperationMode{
     IKMode = 4,
 };
 
-enum MetaErrorDefine{
+enum XR1State{
     EVERYTHING_IS_FINE = 0,
-    ERR_ID_NUM = 0x806,
+    COLLISION_OCCURED = 0x806,
     ERR_NOT_LAUNCH = 0x807,
     ERR_CALULATION = 0x808,
 };
@@ -98,9 +98,10 @@ enum HandGripActions{
 
 enum InverseDynamicsOptions{
     None = 0,
-    GravityCompensation = 502,
-    FullDynamics = 503,
+    GravityCompensation = 101,
+    FullDynamics = 102,
 };
+
 
 
 

@@ -90,7 +90,7 @@ void stepFinishedCallback(const std_msgs::Bool& msg) {
     //Uses Inverse Kinematics Mode to get into position
     static Eigen::VectorXd startPOS = Eigen::VectorXd::Zero(6);
 
-    startPOS << 0.4 , 0 , 0 , -3.14 / 2.0 , 3.14 , 0;
+    startPOS << 0.4 , 0 , 0 , 0, -3.14/2 , 0;
 
     if (t <= 2.0) {
 
@@ -115,7 +115,7 @@ void stepFinishedCallback(const std_msgs::Bool& msg) {
 
       XR1_ptr->setControlMode(XR1::LeftArm , XR1::VelocityMode);
 
-      XR1_ptr->setInverseDynamicsOption(XR1::RightArm , XR1::GravityCompensation);
+      XR1_ptr->setInverseDynamicsOption(XR1::GravityCompensation);
 
 
     }

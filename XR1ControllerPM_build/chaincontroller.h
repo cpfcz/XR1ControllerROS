@@ -13,7 +13,7 @@ using namespace Eigen;
 class ChainController: public GenericController
 {
 public:
-    ChainController(MatrixXd DH_input, u_int8_t id , int num_joint);
+    ChainController(MatrixXd DH_input, uint8_t id , int num_joint);
 
     VectorXd getTargetJointCurrents();
 
@@ -21,10 +21,9 @@ public:
 
     //For each joint
 
-    double getTargetJointCurrent(u_int8_t joint_id);
+    double getTargetJointCurrent(uint8_t joint_id);
 
 
-    VectorXd getEFFForce();
 
     VectorXd getEFFVelocity();
 
@@ -38,10 +37,10 @@ public:
 //    void updateBaseTransformation(Matrix3d BaseT);
 
     // Returns the last calculated Jacobian matrix
-    MatrixXd getJacobian(u_int8_t id);
+    MatrixXd getJacobian(uint8_t id);
 
     // Return the last calculated end effector Transformation
-    MatrixXd getTransformation(u_int8_t JointID);
+    MatrixXd getTransformation(uint8_t JointID);
 
 
 
@@ -71,6 +70,15 @@ public:
 
     void T_DH(double d , double offset , double alpha , double ad , double theta);
 
+    void T_MDH(MatrixXd &temp_trans, double alpha , double ad , double d , double offset , double theta);
+
+    MatrixXd Adjoint(MatrixXd & T);
+
+    MatrixXd invAdjoint(MatrixXd & T);
+
+    MatrixXd EFF2BaseForceAdjoint(MatrixXd & T);
+
+
     void EulerXYZ(double x , double y , double z , Matrix3d &input) ;
 
     void EulerZYX(double x , double y , double z , Matrix3d &input) ;
@@ -89,7 +97,7 @@ public:
     VectorXd Dynamic_Compensation;
 
 
-    u_int8_t Begin_ID;
+    uint8_t Begin_ID;
 
 private:
 
@@ -106,8 +114,8 @@ private:
 
     std::vector<MatrixXd> Jacobians;
 
-    std::vector<MatrixXd> Transformations_Collection;
-    std::vector<MatrixXd> Trans_Collection;
+    std::vector<MatrixXd> m_T_array;
+    std::vector<MatrixXd> m_Ti_array;
 
 
     MatrixXd DH_parameters;

@@ -178,7 +178,7 @@ double XR1ControllerROS::getSimulationTime() {
 	return simulationTime;
 }
 
-void XR1ControllerROS::setControlMode(u_int8_t control_group , u_int8_t option) {
+void XR1ControllerROS::setControlMode(uint8_t control_group , uint8_t option) {
 
 	xr1controllerros::ChainModeChange mode;
 
@@ -390,32 +390,32 @@ void XR1ControllerROS::setRightArmForce(const VectorXd& twist) {
 }
 
 
-void XR1ControllerROS::setJointPosition(u_int8_t control_group , VectorXd JA) {
+void XR1ControllerROS::setJointPosition(uint8_t control_group , VectorXd JA) {
 
 	XR1_ptr->setJointPosition(control_group , JA);
 
 }
 
-void XR1ControllerROS::setJointVelocity(u_int8_t control_group , VectorXd JV) {
+void XR1ControllerROS::setJointVelocity(uint8_t control_group , VectorXd JV) {
 
 	XR1_ptr->setJointVelocity( control_group,  JV);
 
 }
 
-void XR1ControllerROS::setJointCurrent(u_int8_t control_group , VectorXd JC) {
+void XR1ControllerROS::setJointCurrent(uint8_t control_group , VectorXd JC) {
 
 	XR1_ptr->setJointCurrent( control_group,  JC);
 }
 
-void XR1ControllerROS::updatingCallback(VectorXd JointValue, u_int8_t control_group , u_int8_t values_type) {
+void XR1ControllerROS::updatingCallback(VectorXd JointValue, uint8_t control_group , uint8_t values_type) {
 	XR1_ptr->updatingCallback(JointValue, control_group , values_type);
 }
 
-MatrixXd XR1ControllerROS::getJacobian(u_int8_t joint_idx) {
+MatrixXd XR1ControllerROS::getJacobian(uint8_t joint_idx) {
 	return XR1_ptr->getJacobian(joint_idx);
 }
 
-std::vector<MatrixXd> XR1ControllerROS::getJacobian(std::vector<u_int8_t> joint_idx_list) {
+std::vector<MatrixXd> XR1ControllerROS::getJacobian(std::vector<uint8_t> joint_idx_list) {
 	return XR1_ptr->getJacobian(joint_idx_list);
 }
 
@@ -580,12 +580,12 @@ void XR1ControllerROS::simulationTimeCallback(const std_msgs::Float32& msg) {
 }
 
 
-void XR1ControllerROS::setPathPlanningMethod(u_int8_t control_group , u_int8_t method) {
+void XR1ControllerROS::setPathPlanningMethod(uint8_t control_group , uint8_t method) {
 
 }
 
 
-void XR1ControllerROS::setJointAttribute(u_int8_t joint_idx , u_int8_t attribute_idx, double value) {
+void XR1ControllerROS::setJointAttribute(uint8_t joint_idx , uint8_t attribute_idx, double value) {
 	xr1controllerros::JointAttributeMsgs msg;
 	msg.JointID = joint_idx;
 	msg.AttributeID = attribute_idx;
@@ -596,50 +596,47 @@ void XR1ControllerROS::setJointAttribute(u_int8_t joint_idx , u_int8_t attribute
 
 
 
-void XR1ControllerROS::setInverseDynamicsOption(int control_group , u_int8_t option){
-	XR1_ptr->setInverseDynamicsOption(control_group , option);
+void XR1ControllerROS::setInverseDynamicsOption( uint8_t option){
+	XR1_ptr->setInverseDynamicsOption(option);
 }
 
 
 
-VectorXd XR1ControllerROS::getJointPositions(u_int8_t control_group) {
+VectorXd XR1ControllerROS::getJointPositions(uint8_t control_group) {
 	return XR1_ptr->getJointPositions(control_group);
 }
 
 
 
-std::vector<double> XR1ControllerROS::getJointPositionsStd(u_int8_t control_group) {
+std::vector<double> XR1ControllerROS::getJointPositionsStd(uint8_t control_group) {
 	return XR1_ptr->getJointPositionsStd(control_group);
 }
 
 
 
-VectorXd XR1ControllerROS::getJointVelocities(u_int8_t control_group) {
+VectorXd XR1ControllerROS::getJointVelocities(uint8_t control_group) {
 
 	return XR1_ptr->getJointVelocities(control_group);
 }
 
 
-std::vector<double> XR1ControllerROS::getJointVelocitiesStd(u_int8_t control_group) {
+std::vector<double> XR1ControllerROS::getJointVelocitiesStd(uint8_t control_group) {
 	return XR1_ptr->getJointVelocitiesStd(control_group);
 }
 
 
 
-VectorXd XR1ControllerROS::getJointCurrents(u_int8_t control_group) {
+VectorXd XR1ControllerROS::getJointCurrents(uint8_t control_group) {
 	return XR1_ptr->getJointCurrents(control_group);
 }
 
 
 
-std::vector<double> XR1ControllerROS::getJointCurrentsStd(u_int8_t control_group) {
+std::vector<double> XR1ControllerROS::getJointCurrentsStd(uint8_t control_group) {
 	return XR1_ptr->getJointCurrentsStd(control_group);
 }
 
 
-VectorXd XR1ControllerROS::getLeftArmForce() {
-	return XR1_ptr->getLeftArmForce();
-}
 
 VectorXd XR1ControllerROS::getLeftArmVelocity() {
 	return XR1_ptr->getLeftArmVelocity();
@@ -653,9 +650,6 @@ MatrixXd XR1ControllerROS::getLeftArmPositionMatrix() {
 	return XR1_ptr->getLeftArmPositionMatrix();
 }
 
-VectorXd XR1ControllerROS::getRightArmForce() {
-	return XR1_ptr->getRightArmForce();
-}
 
 VectorXd XR1ControllerROS::getRightArmVelocity() {
 	return XR1_ptr->getRightArmVelocity();

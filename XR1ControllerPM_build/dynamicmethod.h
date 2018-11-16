@@ -24,6 +24,8 @@ public:
 
     void distributeJointInfo(bool lor);
 
+    void setInverseDynamicsOption(uint8_t option);
+
     void ClearResults();
 
 
@@ -40,6 +42,8 @@ protected:
     double Target_Acceleration[7];
     double Target_Currents[7];
 
+    uint8_t DynamicsOption;
+
 
     int Begin_ID;
     int End_ID;
@@ -49,8 +53,6 @@ protected:
     ChainController * m_pLeftArm;
     ChainController * m_pRightArm;
     ChainController * m_pBody;
-
-    bool DynamicOption;
 
 
 
