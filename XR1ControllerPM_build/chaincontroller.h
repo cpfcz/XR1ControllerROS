@@ -58,8 +58,10 @@ public:
 
     void setEFFCurrent(const VectorXd& twist);
 
-    bool setEFFPosition(const VectorXd& twist , const double &elbow_lift_angle);
+//    bool setEFFPosition(const VectorXd& twist , const double &elbow_lift_angle);
 
+
+    // Use this for points that are VERY CLOSE! it sets the target position straight up;
     bool setEFFPosition(const Matrix3d &rotation , const Vector3d &position , const double &elbow_lift_angle);
 
     bool setEFFPosition(const MatrixXd &transformation, const double &elbow_lift_angle);
@@ -132,6 +134,7 @@ private:
 
     // Saves individual transformation in the transformation collection
     void Transformation(VectorXd Joint_Angles);
+
 
 
 

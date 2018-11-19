@@ -17,6 +17,7 @@
 
 
 
+
 class XR1ControllerPM
 {
 
@@ -30,19 +31,26 @@ public:
     //Used in the XR1Controller
     //Argu: Control Group ID , Angles contained in Eigen::VectorXd
     //Reutrns : void , may add error message in the fulture
-    VectorXd setJointPosition(uint8_t control_group ,VectorXd JA);
+    void setJointPosition(uint8_t control_group ,VectorXd JA);
 
     //Set the Target Joint Velocity for an entire control group, i.e. LeftARM , RightHand
     //Used in the XR1Controller
     //Argu: Control Group ID , Angular Velocity contained in Eigen::VectorXd
     //Reutrns : void , may add error message in the fulture
-    VectorXd setJointVelocity(uint8_t control_group ,VectorXd JV);
+    void setJointVelocity(uint8_t control_group ,VectorXd JV);
+
+
+    //Set the Target Joint Acceleration for entire control group, i.e. LeftShoulderX , RightWristZ
+    //Used in the XR1Controller
+    //Argu: Control Group ID , Angular Velocity contained in std::vector<double>
+    //Reutrns : void , may add error message in the fulture
+    void setJointAcceleration(uint8_t control_group ,VectorXd JACC);
 
     //Set the Target Joint Currents for an entire control group, i.e. LeftARM , RightHand
     //Used in the XR1Controller
     //Argu: Control Group ID , Target Current
     //Reutrns : void , may add error message in the fulture
-    VectorXd setJointCurrent(uint8_t control_group , VectorXd JC);
+    void setJointCurrent(uint8_t control_group , VectorXd JC);
 
 
     //Set the Target Joint Positions for a single joint, i.e. LeftShoulderX , RightWristZ
@@ -174,6 +182,14 @@ public:
 
 
     // Brutal Straight Forward Controls----------------------------------------------
+
+
+    bool setEndEffectorPosition(uint8_t control_group , const Matrix3d &rotation , const Vector3d &position , const double &elbow_lift_angle);
+
+    bool setEndEffectorPosition(uint8_t control_group , const MatrixXd &transformation, const double &elbow_lift_angle);
+
+
+
     void setEndEffectorIncrement(uint8_t control_group ,const Vector3d& Linear , const Vector3d& Angular);
     void setLeftArmIncrement(const Vector3d& Linear , const Vector3d& Angular);
     void setRightArmIncrement(const Vector3d& Linear , const Vector3d& Angular);
@@ -238,20 +254,37 @@ public:
     void SetOmniWheelsVelocity(Vector3d input);
 
 
+
+
+
+    // Ports for animation library
     void setState(std::vector<double> goal_configuration , int period_in_ms, int control_rate = 200);
-
     std::vector<double> getNextState();
+    void clearState();
 
+
+
+
+
+
+
+    // Options for post collision detection
     void liftLockdown();
-
     bool isXR1Okay();
+
+
+
+
+    // Options for EFF position planning
+    void setEFFgoal(uint8_t control_group, Vector3d eff_position , Matrix3d eff_orientation , int period_in_ms , int control_rate = 200);
+    void getNextArmState();
 
 private:
 
 
     void getState();
 
-    void clearState();
+
 
     void calculateStates();
 
@@ -375,6 +408,13 @@ private:
     double RightArmCollisionCounterLimit;
 
     double HandCollisionThreshold;
+
+
+
+
+    Vector3d EFFgoalPosition;
+
+    Matrix3d EFFgoalOrientation;
 
 
 };

@@ -108,7 +108,7 @@ public:
 
     virtual void setEFFCurrent(const VectorXd& twist);
 
-    virtual bool setEFFPosition(const VectorXd& twist , const double &elbow_lift_angle);
+//    virtual bool setEFFPosition(const VectorXd& twist , const double &elbow_lift_angle);
 
     virtual bool setEFFPosition(const Matrix3d &rotation , const Vector3d &position , const double &elbow_lift_angle);
 

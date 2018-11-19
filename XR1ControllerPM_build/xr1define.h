@@ -59,9 +59,9 @@ enum ChainOperationMode{
 
 enum XR1State{
     EVERYTHING_IS_FINE = 0,
-    COLLISION_OCCURED = 0x806,
-    ERR_NOT_LAUNCH = 0x807,
-    ERR_CALULATION = 0x808,
+    COLLISION_OCCURED = 201,
+    ERR_NOT_LAUNCH = 202,
+    ERR_CALULATION = 203,
 };
 
 

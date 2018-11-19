@@ -1,9 +1,11 @@
 
 // Created by Chaojie Feng
-// Version 0.0.1
+// Modified for XR1Controller PM by Weiqi Wang
+// Modified to match DH and wrist
+// Version 1.0
 
 
-#pragma once
+//#pragma once
 
 #include<iostream>
 #include<Eigen/Dense>
@@ -39,8 +41,8 @@ private:
 	double angle_J1EndJ2, angle_J2J1End, d_13, d_end;
 	double phi, radius, ratio, theta_4e;
 	double d3, d3_f1;
-	Matrix3d I3, R7t;
-	Matrix4d I4, T4, T7, T_74, T, T_mat, T7i;
+    Matrix3d I3, R7t , R5t , R5e;
+    Matrix4d I4, T4, T7, T_74, T, T_mat, T7i , D5;
 	Vector3d ux, uy, uz;
 	Vector3d u_axis_c, u_c, v_c;
 	Vector3d p1, p_elbow_frame1, p_elbow_u, p_elbow_frame1_u, p7;
@@ -57,9 +59,11 @@ private:
 	//private function
 	Matrix3d rot_z(double);    //rotate about z-axis with specified angle
 	Matrix4d getTransMat(int, VectorXd);
+    Matrix4d getDransMat(int link_id, VectorXd t);
 
 public:
 	VectorXd theta;
+    VectorXd thetaPM;
 	Vector3d p_elbow, pv;
 	Matrix3d Rv;
 
@@ -68,6 +72,8 @@ public:
     IKsolver(double a1, double a2, double a3, double arm_angle);
 
     void solve(const Vector3d& p, const Matrix3d& rot, const double &t);
+
+    VectorXd queryPM();
 
 	void verify();
 

@@ -1,3 +1,0 @@
-/home/rocky/catkin_ws/src/xr1controllerros/XR1ControllerPM_build/CMakeFiles/edit_cache.dir
-/home/rocky/catkin_ws/src/xr1controllerros/XR1ControllerPM_build/CMakeFiles/rebuild_cache.dir
-/home/rocky/catkin_ws/src/xr1controllerros/XR1ControllerPM_build/CMakeFiles/XR1ControllerPM.dir
