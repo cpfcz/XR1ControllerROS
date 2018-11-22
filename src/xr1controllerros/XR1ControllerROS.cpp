@@ -664,7 +664,8 @@ MatrixXd XR1ControllerROS::getRightArmPositionMatrix() {
 }
 
 void XR1ControllerROS::stepFinishedCallback() {
-ROS_INFO("XR!  debug");
+
+	ROS_INFO("XR!  debug");
 	XR1_ptr->triggerCalculation();
 
 

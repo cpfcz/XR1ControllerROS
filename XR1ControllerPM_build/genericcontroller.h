@@ -37,6 +37,8 @@ public:
     //Retrive Target Values from each group
     virtual VectorXd getTargetJointAngles();
 
+    virtual VectorXd getIKJointAngles();
+
     virtual std::vector<double> getTargetJointAnglesStd();
 
     virtual VectorXd getTargetJointVelocities();
@@ -62,6 +64,8 @@ public:
     //Get Target Values
     virtual double getTargetJointAngle(uint8_t joint_id);
 
+    virtual double getIKJointAngle(uint8_t joint_id);
+
     virtual double getTargetJointVelocity(uint8_t joint_id);
 
     virtual double getTargetJointCurrent(uint8_t joint_id);
@@ -85,6 +89,8 @@ public:
     virtual VectorXd getEFFPosition();
 
     virtual MatrixXd getEFFPositionMatrix();
+
+    virtual void getEndEfftorTransformation(Affine3d & transformationReference);
 
     // Update the the base
 //    void updateBaseTransformation(Matrix3d BaseT);
@@ -110,11 +116,12 @@ public:
 
 //    virtual bool setEFFPosition(const VectorXd& twist , const double &elbow_lift_angle);
 
-    virtual bool setEFFPosition(const Matrix3d &rotation , const Vector3d &position , const double &elbow_lift_angle);
+    virtual bool setEFFPosition(const Matrix3d &rotation , const Vector3d &position , const double elbow_lift_angle);
 
-    virtual bool setEFFPosition(const MatrixXd &transformation, const double &elbow_lift_angle);
+    virtual bool setEFFPosition(const Affine3d &transformation, double elbow_lift_angle);
 
 
+    virtual void modeChange();
 
     // Free for grabbing values
     VectorXd Joint_Angles;
@@ -125,6 +132,9 @@ public:
     VectorXd Target_Joint_Velocities;
     VectorXd Target_Joint_Acceleration;
 
+    VectorXd IK_Joint_Angles;
+    VectorXd IK_Joint_Velocities;
+    VectorXd IK_Joint_Acceleration;
 
     uint8_t DynamicsOption;
 

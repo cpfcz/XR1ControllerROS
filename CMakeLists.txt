@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_generation
   roslib
+  tf_conversions
 )
 
 ## System dependencies are found with CMake's conventions
@@ -70,3 +71,8 @@ include_directories(
 add_executable(drawing_vel src/Drawing_Vel.cpp) 
 target_link_libraries(drawing_vel ${catkin_LIBRARIES} ${PROJECT_NAME})
 add_dependencies(drawing_vel ${PROJECT_NAME})
+
+
+add_executable(ik_example src/IK_Example.cpp) 
+target_link_libraries(ik_example ${catkin_LIBRARIES} ${PROJECT_NAME})
+add_dependencies(ik_example ${PROJECT_NAME})
