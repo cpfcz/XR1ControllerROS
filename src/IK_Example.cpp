@@ -31,9 +31,10 @@ void broadcastIKTargets( ros::Publisher & LeftElbowAngle, ros::Publisher & Right
 
 
   // Making of a random transformation 
-  translation << doubleRNG() * 0.3 + 0.1 , (doubleRNG()-0.5) * 0.3 , (doubleRNG()-0.5) * 0.3 ;
-  //random transform
-  transform =  AngleAxisd((doubleRNG())*M_PI , Vector3d::UnitZ()) * AngleAxisd((doubleRNG()-0.5)*M_PI, Vector3d::UnitY()) * AngleAxisd((doubleRNG()-0.5)*M_PI, Vector3d::UnitX());
+  translation << doubleRNG() * 0.3 + 0.1 , -doubleRNG() * 0.3 , doubleRNG() * 0.3 + 0.1 ;
+  //random Rotation
+  transform =  AngleAxisd((doubleRNG())*M_PI , Vector3d::UnitX()) * AngleAxisd((doubleRNG()-0.5)*M_PI, Vector3d::UnitY()) * AngleAxisd((doubleRNG()-0.5)*M_PI, Vector3d::UnitZ());
+  // randrom translation
   transform.translation() = translation;
   // A random elbow lift angle that is within range
   elbow_angle = doubleRNG() * 2.0 + 1.0;
@@ -43,25 +44,28 @@ void broadcastIKTargets( ros::Publisher & LeftElbowAngle, ros::Publisher & Right
 
 
 
-  std::cout << transform.matrix() <<std::endl;
+  // std::cout << transform.matrix() <<std::endl;
 
 
   // Publish the left target
   msg.data = elbow_angle;
   LeftElbowAngle.publish (msg);
-  EFF_Broadcaster.sendTransform(tf::StampedTransform(target_transform, ros::Time::now(), "/LeftArmBase", "/LeftEndEffectorTarget"));
+  EFF_Broadcaster.sendTransform(tf::StampedTransform(target_transform, ros::Time::now(), "/Back_Y", "/LeftEndEffectorTarget"));
 
 
 
 
-
-
+  // do it again for the right arm
+  translation << doubleRNG() * 0.3 + 0.1 , doubleRNG() * 0.3 , doubleRNG()*0.3 + 0.1 ;
+  transform =  AngleAxisd((doubleRNG())*M_PI , Vector3d::UnitX()) * AngleAxisd((doubleRNG()-0.5)*M_PI, Vector3d::UnitY()) * AngleAxisd((doubleRNG()-0.5)*M_PI, Vector3d::UnitZ());
+  transform.translation() = translation;
+  transformEigenToTF(transform , target_transform);
 
   // Flipt the angle for the right arm
   msg.data = - elbow_angle;
   RightElbowAngle.publish (msg);
   // Publish the right target
-  EFF_Broadcaster.sendTransform(tf::StampedTransform(target_transform, ros::Time::now(), "/RightArmBase", "/RightEndEffectorTarget"));
+  EFF_Broadcaster.sendTransform(tf::StampedTransform(target_transform, ros::Time::now(), "/Back_Y", "/RightEndEffectorTarget"));
 
 }
 
