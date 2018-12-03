@@ -415,9 +415,9 @@ MatrixXd XR1ControllerROS::getJacobian(uint8_t joint_idx) {
 	return XR1_ptr->getJacobian(joint_idx);
 }
 
-std::vector<MatrixXd> XR1ControllerROS::getJacobian(std::vector<uint8_t> joint_idx_list) {
-	return XR1_ptr->getJacobian(joint_idx_list);
-}
+// std::vector<MatrixXd> XR1ControllerROS::getJacobian(std::vector<uint8_t> joint_idx_list) {
+// 	return XR1_ptr->getJacobian(joint_idx_list);
+// }
 
 
 xr1controllerros::ArmMsgs XR1ControllerROS::ConvertArmMsgs(std::vector<double> input) {
