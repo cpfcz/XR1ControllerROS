@@ -31,13 +31,13 @@ void broadcastIKTargets( ros::Publisher & LeftElbowAngle, ros::Publisher & Right
 
 
   // Making of a random transformation 
-  translation << doubleRNG() * 0.3 + 0.1 , -doubleRNG() * 0.3 , doubleRNG() * 0.3 + 0.1 ;
+  translation << 0.3  , -0.3 , 0.3 + 0.1 ;
   //random Rotation
-  transform =  AngleAxisd((doubleRNG())*M_PI , Vector3d::UnitX()) * AngleAxisd((doubleRNG()-0.5)*M_PI, Vector3d::UnitY()) * AngleAxisd((doubleRNG()-0.5)*M_PI, Vector3d::UnitZ());
+  transform =  AngleAxisd(-0.5*M_PI, Vector3d::UnitX()) * AngleAxisd(0, Vector3d::UnitY()) * AngleAxisd(0, Vector3d::UnitZ());
   // randrom translation
   transform.translation() = translation;
   // A random elbow lift angle that is within range
-  elbow_angle = doubleRNG() * 2.0 + 1.0;
+  elbow_angle =  2.0 + 1.0;
 
   // Boardcast this  transformation
   transformEigenToTF(transform , target_transform);
@@ -50,14 +50,14 @@ void broadcastIKTargets( ros::Publisher & LeftElbowAngle, ros::Publisher & Right
   // Publish the left target
   msg.data = elbow_angle;
   LeftElbowAngle.publish (msg);
-  EFF_Broadcaster.sendTransform(tf::StampedTransform(target_transform, ros::Time::now(), "/Back_Y", "/LeftEndEffectorTarget"));
+  EFF_Broadcaster.sendTransform(tf::StampedTransform(target_transform, ros::Time::now(), "/Odom", "/LeftEndEffectorTarget"));
 
 
 
 
   // do it again for the right arm
-  translation << doubleRNG() * 0.3 + 0.1 , doubleRNG() * 0.3 , doubleRNG()*0.3 + 0.1 ;
-  transform =  AngleAxisd((doubleRNG())*M_PI , Vector3d::UnitX()) * AngleAxisd((doubleRNG()-0.5)*M_PI, Vector3d::UnitY()) * AngleAxisd((doubleRNG()-0.5)*M_PI, Vector3d::UnitZ());
+  translation <<  0.3 + 0.1 ,  0.3 , 0.3 + 0.1 ;
+  transform =   AngleAxisd(-0.5*M_PI, Vector3d::UnitX()) * AngleAxisd(0, Vector3d::UnitY()) * AngleAxisd(0, Vector3d::UnitZ());
   transform.translation() = translation;
   transformEigenToTF(transform , target_transform);
 
@@ -65,7 +65,7 @@ void broadcastIKTargets( ros::Publisher & LeftElbowAngle, ros::Publisher & Right
   msg.data = - elbow_angle;
   RightElbowAngle.publish (msg);
   // Publish the right target
-  EFF_Broadcaster.sendTransform(tf::StampedTransform(target_transform, ros::Time::now(), "/Back_Y", "/RightEndEffectorTarget"));
+  EFF_Broadcaster.sendTransform(tf::StampedTransform(target_transform, ros::Time::now(), "/Odom", "/RightEndEffectorTarget"));
 
 }
 
@@ -74,7 +74,8 @@ void broadcastIKTargets( ros::Publisher & LeftElbowAngle, ros::Publisher & Right
 
 
 int main(int argc, char **argv) {
-  ros::init(argc, argv, "ik_example");
+
+  ros::init(argc, argv, "ik_odom");
 
   ros::NodeHandle nh;
 
@@ -82,7 +83,7 @@ int main(int argc, char **argv) {
   ros::Publisher RightElbowAngle = nh.advertise<std_msgs::Float64>("/RightArm/ElbowAngle" , 1);
   tf::TransformBroadcaster EFF_Broadcaster;
   // Draw some random stuff every 10 seconds or so
-  ros::Timer timer = nh.createTimer(ros::Duration(10), boost::bind(broadcastIKTargets, LeftElbowAngle , RightElbowAngle , EFF_Broadcaster));
+  ros::Timer timer = nh.createTimer(ros::Duration(0.01), boost::bind(broadcastIKTargets, LeftElbowAngle , RightElbowAngle , EFF_Broadcaster));
 
 
 
