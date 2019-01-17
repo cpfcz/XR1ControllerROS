@@ -8,6 +8,7 @@
 #include "handcontroller.h"
 #include "omnicontroller.h"
 #include "dynamicmethod.h"
+#include "IKplanner.h"
 #include <map>
 #include <vector>
 #include <deque>
@@ -34,6 +35,9 @@ public:
 
     // Mute Commands
     void setMutePosition(std::vector<double> MuteData);
+
+    // Teach Commands
+    void setTeachPosition(std::vector<double> TeachData);
 
 
 
@@ -136,7 +140,7 @@ public:
 
     //---------------------------------------------------------------------------------
     //Get Target Position for Arms or Body
-    VectorXd getTargetPosition(uint8_t control_group);
+    VectorXd getTargetPosition(uint8_t control_group, uint8_t mode_fixed = 0);
 
     //Get Target velocity for Arms or Body
     VectorXd getTargetVelocity(uint8_t control_group);
@@ -144,7 +148,7 @@ public:
     //Get Target Current for Arms or Body
     VectorXd getTargetCurrent(uint8_t control_group);
 
-    double getTargetJointPosition(uint8_t joint_id);
+    double getTargetJointPosition(uint8_t joint_id , uint8_t mode_fixed = 0);
 
     double getTargetJointVelocity(uint8_t joint_id);
 
@@ -164,6 +168,7 @@ public:
     //Reutrns : void , may add error message in the fulture
     void setControlMode(uint8_t control_group ,uint8_t option);
     uint8_t getControlMode(uint8_t control_group);
+
 
 
 
@@ -207,7 +212,11 @@ public:
 
     bool setEndEffectorPosition(uint8_t control_group , const Affine3d &transformation, double elbow_lift_angle);
 
-    void getEndEfftorTransformation(uint8_t control_group, Affine3d &TransformationReference, bool IK = true);
+    bool setEndEffectorPosition(uint8_t control_group , const Affine3d & transformation, double elbow_angle, double period);
+
+    void getEndEffectorTransformation(uint8_t control_group, Affine3d &TransformationReference, bool IK = true);
+
+    double getElbowAngle(uint8_t control_group);
 
 
     void setEndEffectorIncrement(uint8_t control_group ,const Vector3d& Linear , const Vector3d& Angular);
@@ -287,6 +296,7 @@ public:
     // Ports for animation library
     void setState(std::vector<double> goal_configuration , int period_in_ms, int control_rate = 200);
     std::vector<double> getNextState();
+    VectorXd trackBothHands();
     void clearState();
 
 
@@ -320,6 +330,8 @@ private:
     HandController * RightHand;
     OmniController * OmniWheels;
     DynamicMethod * DungeonMaster;
+    IKplanner * IKPlanner;
+
 
 
     // global configs
@@ -336,6 +348,7 @@ private:
 
     //Private function called internally
     void getState();
+    void swtichIKMode(); // switch to a state to IK Mode
     void calculateStates();
     void assignState();
     void readParameters(string parameters_path);
@@ -346,7 +359,6 @@ private:
     void tinyTriPos(double &value, double & qmin , double &pt_s, double &pt_e);
     void tinyTriVel(double &value, double & qmin );
     void tinyTriAcc(double &value, double & qmin );
-    void solveTri(double & qmin , double & pt_s, double & pt_e, double &  period);
 
     // private members for calcualting states
     uint8_t XR1_State;
