@@ -34,12 +34,14 @@ public:
     VectorXd getEFFVelocity();
     VectorXd getEFFPosition();
     MatrixXd getEFFPositionMatrix();
-    void getEndEfftorTransformation(Affine3d & transformationReference);
+    void getEndEffectorTransformation(Affine3d & transformationReference);
+    double getElbowAngle();
     void getBaseTransformation(Affine3d &transformationReference);
 
     // Use this for points that are VERY CLOSE! it sets the target position straight up;
     bool setEFFPosition(const Matrix3d &rotation , const Vector3d &position , double elbow_lift_angle);
     bool setEFFPosition(const Affine3d &transformation, double elbow_lift_angle);
+    void correctIKJointAngles();
 
 
     // Update the the base
@@ -75,7 +77,7 @@ public:
 
     VectorXd Dynamic_Compensation;
     uint8_t Begin_ID;
-    double ElbowAngle;
+
 
 private:
     // Saves Jacobian matrix as a the member variable
