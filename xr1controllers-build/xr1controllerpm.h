@@ -39,6 +39,8 @@ public:
     // Teach Commands
     void setTeachPosition(std::vector<double> TeachData);
 
+    // The E STOP command
+    void employLockdown();
 
 
     //Simple Joint Controls--------------------------------------
@@ -214,6 +216,8 @@ public:
 
     bool setEndEffectorPosition(uint8_t control_group , const Affine3d & transformation, double elbow_angle, double period);
 
+    bool isIKPlannerActive(uint8_t control_group);
+
     void getEndEffectorTransformation(uint8_t control_group, Affine3d &TransformationReference, bool IK = true);
 
     double getElbowAngle(uint8_t control_group);
@@ -380,7 +384,6 @@ private:
     double grip_current;
 
     // regarding collision detection
-    void employLockdown();
     void copyCurrent2Target();
     void passiveLockdown();
     double breakAcceleration(double velocity , double period);

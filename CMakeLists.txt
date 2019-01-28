@@ -50,7 +50,7 @@ catkin_package(
 
 include_directories(
   include/${PROJECT_NAME}
-  XR1ControllerPM_build
+  xr1controllers-build
   ${catkin_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/Eigen3
 )
@@ -63,7 +63,7 @@ include_directories(
 
  target_link_libraries(${PROJECT_NAME}
    ${catkin_LIBRARIES}
-   ${CMAKE_CURRENT_SOURCE_DIR}/XR1ControllerPM_build/libXR1ControllerPM.so
+   ${CMAKE_CURRENT_SOURCE_DIR}/xr1controllers-build/libXR1ControllerPM.so
  )
 
 
