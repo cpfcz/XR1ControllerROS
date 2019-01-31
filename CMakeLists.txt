@@ -42,46 +42,15 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES xr1controllerros
   CATKIN_DEPENDS geometry_msgs roscpp rospy std_msgs
 )
 
 
 
 include_directories(
-  include/${PROJECT_NAME}
-  xr1controllers-build
   ${catkin_INCLUDE_DIRS}
   ${CMAKE_CURRENT_SOURCE_DIR}/Eigen3
 )
 
 
-
- add_library(${PROJECT_NAME}
-   src/${PROJECT_NAME}/XR1ControllerROS.cpp
- )
-
- target_link_libraries(${PROJECT_NAME}
-   ${catkin_LIBRARIES}
-   ${CMAKE_CURRENT_SOURCE_DIR}/xr1controllers-build/libXR1ControllerPM.so
- )
-
-
-
-add_executable(drawing_vel src/Drawing_Vel.cpp) 
-target_link_libraries(drawing_vel ${catkin_LIBRARIES} ${PROJECT_NAME})
-add_dependencies(drawing_vel ${PROJECT_NAME})
-
-
-add_executable(ik_example src/IK_Example.cpp) 
-target_link_libraries(ik_example ${catkin_LIBRARIES} ${PROJECT_NAME})
-add_dependencies(ik_example ${PROJECT_NAME})
-
-
-add_executable(ik_bench src/IK_Bench.cpp) 
-target_link_libraries(ik_bench ${catkin_LIBRARIES} ${PROJECT_NAME})
-add_dependencies(ik_bench ${PROJECT_NAME})
-
-add_executable(ik_odom src/IK_odom.cpp) 
-target_link_libraries(ik_odom ${catkin_LIBRARIES} ${PROJECT_NAME})
-add_dependencies(ik_odom ${PROJECT_NAME})
+#add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_generate_messages_cpp)
