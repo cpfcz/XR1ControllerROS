@@ -41,7 +41,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 
 catkin_package(
-  INCLUDE_DIRS include
+  #INCLUDE_DIRS include
   CATKIN_DEPENDS geometry_msgs roscpp rospy std_msgs
 )
 
@@ -49,7 +49,6 @@ catkin_package(
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
-  ${CMAKE_CURRENT_SOURCE_DIR}/Eigen3
 )
 
 
