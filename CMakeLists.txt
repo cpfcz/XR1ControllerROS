@@ -25,6 +25,7 @@ find_package(catkin REQUIRED COMPONENTS
    JointAngles.msg
    IK_msg.msg
    HandMsgs.msg
+   HeadMsgs.msg
    JointVisualization.msg
    ArmMsgs.msg
    BodyMsgs.msg
