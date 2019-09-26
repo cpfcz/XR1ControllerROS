@@ -31,6 +31,7 @@ find_package(catkin REQUIRED COMPONENTS
    BodyMsgs.msg
    ChainModeChange.msg
    JointAttributeMsgs.msg
+   WheelMsg.msg
  )
 
  generate_messages(
