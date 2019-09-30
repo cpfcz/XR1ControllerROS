@@ -32,6 +32,10 @@ find_package(catkin REQUIRED COMPONENTS
    ChainModeChange.msg
    JointAttributeMsgs.msg
    WheelMsg.msg
+   BatteryState.msg
+   DropCollision.msg
+   Ultrasonic.msg
+   ShutdownEvent.msg
  )
 
  generate_messages(
