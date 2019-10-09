@@ -7,7 +7,6 @@
 Header  header
 float32 voltage          # Voltage in Volts (Mandatory)
 float32 current          # Negative when discharging (A)  (If unmeasured NaN)
-float32 charge           # Current charge in Ah  (If unmeasured NaN)
 float32 current_capacity # Capacity in Ah (last full capacity)  (If unmeasured NaN)
 float32 init_capacity    # Capacity in Ah (design capacity)  (If unmeasured NaN)
 float32 dump_energy      # Charge percentage on 0 to 1 range
