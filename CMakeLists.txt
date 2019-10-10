@@ -36,6 +36,7 @@ find_package(catkin REQUIRED COMPONENTS
    DropCollision.msg
    Ultrasonic.msg
    ShutdownEvent.msg
+   Temperature.msg
  )
 
  generate_messages(
