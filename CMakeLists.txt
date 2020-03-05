@@ -60,3 +60,9 @@ include_directories(
 
 
 #add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_generate_messages_cpp)
+
+###################catkin_package install##############################
+install(DIRECTORY include
+    DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+    FILES_MATCHING PATTERN "*.h"
+)

@@ -13,4 +13,5 @@ float32 dump_energy      # Charge percentage on 0 to 1 range
 uint8   cell_type        # The charging status as reported. Values defined above
 uint8   id               # The battery health metric. Values defined above
 uint32  status           # The battery chemistry. Values defined above
+bool    chargeset_type   # The chargeset type
 
