@@ -11,13 +11,13 @@ $ git clone https://github.com/Rayckey/xr1controllerros.git
 2. Return to root if work space folder and build with catkin_make
 ```
 $ catkin_make
-$ source devel/setup.bash 
+$ source devel/setup.bash
 ```
 
 
 ### Compiling
 
-1. You can launch the simulation with 
+1. You can launch the simulation with
 ```
 $ roscd xr1controllerros
 $ ./launch_vrep.sh

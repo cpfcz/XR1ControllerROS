@@ -1,4 +1,4 @@
-float64 LPX  
+float64 LPX
 float64 LPY
 float64 LPZ
 float64 LRX
